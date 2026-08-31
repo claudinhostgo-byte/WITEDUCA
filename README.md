@@ -8,14 +8,14 @@ Importado desde el proyecto **"Sitio web W-IT Educa"** de [Claude Design](https:
 
 | Archivo | Página |
 |---|---|
-| `WITEDUCA.dc.html` | Home |
+| `index.html` | Home |
 | `Oferta.dc.html` | Oferta — 4 líneas de trabajo + carrusel de agentes IA |
 | `Adopcion.dc.html` | Adopción Garantizada — programa ancla |
 | `Nosotros.dc.html` | Nosotros — equipo, designaciones Microsoft, FAQ |
 | `Recursos.dc.html` | Recursos — artículos y hub de adopción Microsoft |
 | `Contacto.dc.html` | Contacto — formulario |
 
-La home es `WITEDUCA.dc.html`, no `index.html`.
+La home es `index.html`, así que la raíz del dominio (<https://www.witeduca.cl>) la sirve directamente.
 
 ## Cómo verlo
 
@@ -25,7 +25,7 @@ Las páginas usan rutas relativas para `assets/`, así que **no funcionan abiert
 python -m http.server 8765
 ```
 
-Luego abrir <http://127.0.0.1:8765/WITEDUCA.dc.html>.
+Luego abrir <http://127.0.0.1:8765/>.
 
 ## Formato `.dc.html`
 
