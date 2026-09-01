@@ -10,6 +10,11 @@
       "allowedRoles": ["anonymous"]
     },
     {
+      "route": "/api/health",
+      "methods": ["GET"],
+      "allowedRoles": ["anonymous"]
+    },
+    {
       "route": "/api/*",
       "statusCode": 404
     }
