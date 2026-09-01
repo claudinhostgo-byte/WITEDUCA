@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "",
+    "DATAVERSE_URL": "https://<tu-org>.crm2.dynamics.com",
+    "DATAVERSE_TENANT_ID": "<tenant-id>",
+    "DATAVERSE_CLIENT_ID": "<application-client-id>",
+    "DATAVERSE_CLIENT_SECRET": "<pegar-solo-en-local-nunca-commitear>",
+    "LEAD_SOURCE_CODE": "8"
+  }
+}

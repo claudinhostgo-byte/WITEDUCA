@@ -35,6 +35,82 @@ Cada página es un componente del runtime de Claude Design:
 - El `<script type="text/x-dc">` final define una clase `Component extends DCLogic` con `state`, `componentDidMount()` y `renderVals()`.
 - `support.js` es el runtime que interpreta todo eso.
 
+## Formulario de contacto → Dynamics 365
+
+El formulario de `Contacto.dc.html` hace `POST /api/contacto`. Esa ruta es una
+Azure Function gestionada de Static Web Apps (`api/`) que crea un **Cliente
+potencial (Lead)** en Dataverse.
+
+Se crea un Lead y no una Oportunidad a propósito: es el flujo estándar de D365
+Sales. El equipo comercial califica el Lead y, al calificarlo, D365 genera
+Cuenta + Contacto + Oportunidad. Así el tráfico anónimo de la web no entra
+directo al pipeline ni al forecast.
+
+```
+Contacto.dc.html  --POST-->  api/src/functions/contacto.js
+                                 |-- api/src/lead.js       (validación + mapeo, lógica pura)
+                                 `-- api/src/dataverse.js  (token + Web API)
+                                          |
+                                          v
+                             POST /api/data/v9.2/leads
+```
+
+### 1. Registrar la aplicación en Entra ID
+
+1. Entra ID → Registros de aplicaciones → Nuevo registro (solo este directorio).
+2. Anota el **Id. de aplicación (cliente)** y el **Id. de directorio (inquilino)**.
+3. Certificados y secretos → Nuevo secreto de cliente. Copia el **valor** ahora;
+   después no se puede volver a ver. Anota la fecha de expiración: hay que rotarlo.
+
+No hace falta agregar permisos de API delegados; el acceso se otorga en el paso 2
+mediante el usuario de aplicación de Dataverse.
+
+### 2. Crear el usuario de aplicación en Dynamics 365
+
+1. Centro de administración de Power Platform → tu entorno → Configuración →
+   Usuarios + permisos → **Usuarios de aplicación** → Nuevo usuario de aplicación.
+2. Selecciona la aplicación del paso 1 y una unidad de negocio.
+3. Asígnale un rol de seguridad con permiso de **Creación** sobre la entidad
+   Cliente potencial. Conviene un rol a medida con el mínimo necesario, en vez de
+   Vendedor o Administrador del sistema.
+
+### 3. Configurar la Static Web App
+
+En el portal de Azure → tu Static Web App → **Configuración** → agrega:
+
+| Variable | Ejemplo |
+|---|---|
+| `DATAVERSE_URL` | `https://<tu-org>.crm2.dynamics.com` |
+| `DATAVERSE_TENANT_ID` | id de directorio del paso 1 |
+| `DATAVERSE_CLIENT_ID` | id de aplicación del paso 1 |
+| `DATAVERSE_CLIENT_SECRET` | secreto del paso 1 |
+| `LEAD_SOURCE_CODE` | `8` (opcional) |
+
+El secreto se pega **solo ahí**, nunca en el repositorio. `api/local.settings.json`
+está en `.gitignore`; usa `api/local.settings.json.example` como plantilla para
+desarrollo local.
+
+`LEAD_SOURCE_CODE` es el valor de `leadsourcecode`; **8 = "Web"** en el conjunto de
+opciones estándar de D365. Si tu entorno lo personalizó, confirma el valor real
+antes de publicar.
+
+### Nota sobre el secreto
+
+Las Functions gestionadas de Static Web Apps **no soportan identidad
+administrada**, y el plan Free no permite un Function App propio. Por eso se usa
+client credentials con secreto. Si más adelante pasas a plan Standard con un
+Function App externo, conviene migrar a managed identity y eliminar el secreto.
+
+### Protección del formulario
+
+- Campo trampa (honeypot) oculto: si viene con texto, se descarta y se responde 200
+  para no avisarle al bot.
+- Límite de 5 envíos por IP cada 10 minutos. Es **best-effort**: la memoria no se
+  comparte entre instancias ni sobrevive al reciclaje, así que frena a un bot torpe,
+  no a uno distribuido. Ante abuso sostenido habría que agregar un captcha.
+- Validación en servidor del correo y del valor del select; los largos se recortan a
+  los límites de los campos de Dataverse para que la API no rechace el registro.
+
 ## Dependencias
 
 **El sitio requiere conexión a internet para renderizar.** `support.js` carga tres librerías desde unpkg en tiempo de ejecución:

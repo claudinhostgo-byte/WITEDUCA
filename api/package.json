@@ -1,0 +1,13 @@
+{
+  "name": "witeduca-api",
+  "version": "1.0.0",
+  "description": "API del sitio WITEDUCA — recibe el formulario de contacto y crea el Lead en Dynamics 365.",
+  "private": true,
+  "main": "src/functions/*.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.5.0"
+  }
+}

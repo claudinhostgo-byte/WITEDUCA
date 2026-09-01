@@ -5,3 +5,7 @@ Thumbs.db
 
 # Documento interno W-IT — no publicar (borrador para discusión interna)
 WITEDUCA-catalogo-y-modelo-de-negocio-v01.md
+
+# Azure Functions (API)
+api/node_modules/
+api/local.settings.json

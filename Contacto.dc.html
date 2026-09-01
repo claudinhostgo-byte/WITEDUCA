@@ -87,7 +87,11 @@
           <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600; color: #1B3A50">Mensaje
             <textarea value="{{ mensaje }}" onChange="{{ setMensaje }}" rows="4" placeholder="Cuéntanos brevemente tu situación" style="padding: 12px 14px; border: 1px solid #E0E0E0; border-radius: 8px; font-size: 15px; font-family: inherit; color: #242424; resize: vertical; outline: none" style-focus="border-color: #54BA00"></textarea>
           </label>
-          <button onClick="{{ enviar }}" style="padding: 15px; background: #54BA00; color: #FFFFFF; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 200ms" style-hover="background: #3E8A00">Enviar mensaje</button>
+          <input value="{{ sitio }}" onChange="{{ setSitio }}" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0" />
+          <sc-if value="{{ hayError }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="padding: 14px 16px; background: #FDF3F4; border: 1px solid #F3C9CE; border-left: 3px solid #C4314B; border-radius: 8px; font-size: 14px; line-height: 1.55; color: #8E2239">{{ error }}</div>
+          </sc-if>
+          <button onClick="{{ enviar }}" disabled="{{ enviando }}" style="padding: 15px; background: #54BA00; color: #FFFFFF; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; font-family: inherit; cursor: {{ botonCursor }}; transition: background 200ms" style-hover="background: #3E8A00">{{ botonTexto }}</button>
           <p style="margin: 0; font-size: 13px; color: #616161; text-align: center">También puedes escribir directo a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></p>
         </div>
       </sc-if>
@@ -122,18 +126,75 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { enviado: false, nombre: "", empresa: "", correo: "", interes: "Adopción Garantizada", mensaje: "" };
+  state = {
+    enviado: false, enviando: false, error: "",
+    nombre: "", empresa: "", correo: "", interes: "Adopción Garantizada", mensaje: "",
+    sitio: "" // honeypot: si viene con texto, lo llenó un bot
+  };
+
+  // Mensajes por código de error de /api/contacto. El backend nunca devuelve
+  // detalle del CRM, así que aquí traducimos códigos, no excepciones.
+  mensajeError(codigo, campos) {
+    if (codigo === "campos_invalidos") {
+      const etiquetas = { nombre: "tu nombre", correo: "un correo válido", interes: "el tipo de interés" };
+      const faltan = (campos || []).map((c) => etiquetas[c] || c);
+      return faltan.length
+        ? "Falta " + faltan.join(" y ") + "."
+        : "Revisa los datos del formulario.";
+    }
+    if (codigo === "demasiados_envios") return "Recibimos varios envíos desde tu conexión. Espera unos minutos o escríbenos a contacto@witeduca.cl.";
+    return "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos directo a contacto@witeduca.cl.";
+  }
+
+  async enviar() {
+    if (this.state.enviando) return;
+    this.setState({ enviando: true, error: "" });
+
+    try {
+      const res = await fetch("/api/contacto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: this.state.nombre,
+          empresa: this.state.empresa,
+          correo: this.state.correo,
+          interes: this.state.interes,
+          mensaje: this.state.mensaje,
+          sitio: this.state.sitio
+        })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        this.setState({ enviado: true, enviando: false });
+      } else {
+        this.setState({ enviando: false, error: this.mensajeError(data.error, data.campos) });
+      }
+    } catch {
+      // Falla de red: el fetch ni siquiera llegó al servidor.
+      this.setState({ enviando: false, error: this.mensajeError() });
+    }
+  }
+
   renderVals() {
     const set = (k) => (e) => this.setState({ [k]: e.target.value });
+    const enviando = this.state.enviando;
     return {
       enviado: this.state.enviado,
       noEnviado: !this.state.enviado,
+      enviando,
+      error: this.state.error,
+      hayError: !!this.state.error,
+      botonTexto: enviando ? "Enviando…" : "Enviar mensaje",
+      botonCursor: enviando ? "not-allowed" : "pointer",
       nombre: this.state.nombre, setNombre: set("nombre"),
       empresa: this.state.empresa, setEmpresa: set("empresa"),
       correo: this.state.correo, setCorreo: set("correo"),
       interes: this.state.interes, setInteres: set("interes"),
       mensaje: this.state.mensaje, setMensaje: set("mensaje"),
-      enviar: () => this.setState({ enviado: true })
+      sitio: this.state.sitio, setSitio: set("sitio"),
+      enviar: () => this.enviar()
     };
   }
 }
