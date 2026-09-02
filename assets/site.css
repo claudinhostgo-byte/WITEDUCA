@@ -106,7 +106,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 /* ---------- Navegación ---------- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px var(--pad); background: rgba(255,255,255,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line-soft); }
 .nav__brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.nav__logo { height: 62px; width: auto; }
+.nav__logo { height: 52px; width: auto; }
 .nav__tag { padding-left: 16px; border-left: 1px solid var(--line); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
 .nav__partner { height: 76px; width: auto; margin-left: 12px; }
 .nav__links { display: flex; align-items: center; gap: 32px; font-size: 15px; margin: 0; padding: 0; list-style: none; }
@@ -130,7 +130,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
   .nav__links li:last-child a { border-bottom: 0; }
   .nav__links a.nav__cta { margin-top: 14px; text-align: center; padding: 13px 22px; }
 }
-@media (max-width: 600px) { .nav__logo { height: 50px; } .nav__tag { display: none; } }
+@media (max-width: 600px) { .nav__logo { height: 42px; } .nav__tag { display: none; } }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; padding: 150px var(--pad) 90px; background: linear-gradient(155deg, var(--blue-soft) 0%, #FFFFFF 45%, var(--green-soft) 100%); overflow: hidden; }
@@ -370,7 +370,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 /* ---------- Footer ---------- */
 .footer { background: var(--navy-deep); padding: 56px var(--pad); color: rgba(255,255,255,0.65); }
 .footer__row { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
-.footer__logo { height: 48px; width: auto; }
+.footer__logo { height: 42px; width: auto; }
 .footer__tag { margin: 14px 0 0; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
 .footer__claim { margin: 8px 0 0; font-size: 14px; }
 .footer__links { display: flex; gap: 48px; font-size: 14px; }
