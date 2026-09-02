@@ -3,7 +3,14 @@
   "platform": {
     "apiRuntime": "node:20"
   },
+  "trailingSlash": "auto",
   "routes": [
+    { "route": "/index.html", "redirect": "/", "statusCode": 301 },
+    { "route": "/Oferta.dc.html", "redirect": "/oferta/", "statusCode": 301 },
+    { "route": "/Adopcion.dc.html", "redirect": "/adopcion-garantizada/", "statusCode": 301 },
+    { "route": "/Nosotros.dc.html", "redirect": "/nosotros/", "statusCode": 301 },
+    { "route": "/Recursos.dc.html", "redirect": "/recursos/", "statusCode": 301 },
+    { "route": "/Contacto.dc.html", "redirect": "/contacto/", "statusCode": 301 },
     {
       "route": "/api/contacto",
       "methods": ["POST"],
@@ -24,9 +31,12 @@
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-Frame-Options": "SAMEORIGIN"
   },
+  "mimeTypes": {
+    ".webp": "image/webp"
+  },
   "responseOverrides": {
     "404": {
-      "rewrite": "/index.html",
+      "rewrite": "/404.html",
       "statusCode": 404
     }
   }
