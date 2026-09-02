@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto | WITEDUCA</title>
+<meta name="description" content="Cuéntanos dónde está la brecha de tu organización: adopción de Copilot y Dynamics 365, nivelación tecnológica, gobernanza de IA. Te proponemos un punto de partida concreto.">
+<link rel="canonical" href="https://witeduca.cl/contacto/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WITEDUCA">
+<meta property="og:locale" content="es_CL">
+<meta property="og:title" content="Contacto | WITEDUCA">
+<meta property="og:description" content="Cuéntanos dónde está la brecha y te proponemos un punto de partida concreto.">
+<meta property="og:url" content="https://witeduca.cl/contacto/">
+<meta property="og:image" content="https://witeduca.cl/assets/og-witeduca.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1B3A50">
+<link rel="icon" href="/assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <a class="nav__brand" href="/">
+    <img class="nav__logo" src="/assets/logo-color.png" alt="W-IT" width="811" height="776">
+    <span class="nav__tag">Adopción y<br>Formación</span>
+    <img class="nav__partner" src="/assets/ms-solutions-partner.png" alt="Microsoft Solutions Partner" width="925" height="420">
+  </a>
+  <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <ul class="nav__links" id="menu">
+    <li><a href="/oferta/">Oferta</a></li>
+    <li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li>
+    <li><a href="/nosotros/">Nosotros</a></li>
+    <li><a href="/recursos/">Recursos</a></li>
+    <li><a class="nav__cta" href="/contacto/" aria-current="page">Conversemos</a></li>
+  </ul>
+</header>
+
+<main>
+
+<section class="contact">
+  <div class="blob blob--a" style="opacity: 0.6"></div>
+  <div class="wrap contact__grid">
+    <div class="fade-up">
+      <div class="rule"></div>
+      <h1 class="h-page mt-2" style="font-size: clamp(36px, 4.6vw, 56px)">Conversemos.</h1>
+      <p class="lead mt-2" style="font-size: 17px; max-width: 46ch; line-height: 1.65">Cuéntanos dónde está la brecha de tu organización, adopción, nivelación, gobernanza de IA, y te proponemos un punto de partida concreto.</p>
+      <div class="contact__ways">
+        <a class="contact__way" href="mailto:contacto@witeduca.cl"><span>@</span>contacto@witeduca.cl</a>
+        <div class="contact__way contact__way--muted"><span>CL</span>Santiago de Chile</div>
+      </div>
+    </div>
+
+    <div class="form-card fade-up fade-up--1">
+      <form class="form" id="form-contacto" method="post" action="/api/contacto" novalidate>
+        <div class="form__row">
+          <label class="field">Nombre
+            <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name" required maxlength="120">
+          </label>
+          <label class="field">Empresa u organización
+            <input type="text" name="empresa" placeholder="Tu organización" autocomplete="organization" maxlength="100">
+          </label>
+        </div>
+        <div class="form__row">
+          <label class="field">Cargo <small>(opcional)</small>
+            <input type="text" name="cargo" placeholder="Gerente de TI, jefa de personas…" autocomplete="organization-title" maxlength="100">
+          </label>
+          <label class="field">Tamaño de la organización
+            <select name="tamano" required>
+              <option value="" selected disabled>Selecciona</option>
+              <option>Solo yo</option>
+              <option>2 a 50 personas</option>
+              <option>51 a 500 personas</option>
+              <option>Más de 500 personas</option>
+              <option>Sector público</option>
+            </select>
+          </label>
+        </div>
+        <div class="form__row">
+          <label class="field">Correo
+            <input type="email" name="correo" placeholder="nombre@empresa.cl" autocomplete="email" required maxlength="100">
+          </label>
+          <label class="field">Teléfono <small>(opcional)</small>
+            <input type="tel" name="telefono" placeholder="+56 9 …" autocomplete="tel" maxlength="50">
+          </label>
+        </div>
+        <label class="field">¿Qué te interesa?
+          <select name="interes" required>
+            <option>Adopción Garantizada</option>
+            <option>Formación in-company</option>
+            <option>Nivelación tecnológica</option>
+            <option>Asesoría en IA / Gobernanza</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label class="field">Mensaje
+          <textarea name="mensaje" rows="4" placeholder="Cuéntanos brevemente tu situación" maxlength="2000"></textarea>
+        </label>
+        <input class="hp" type="text" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form__error" role="alert" hidden></div>
+        <button class="form__submit" type="submit">Enviar mensaje</button>
+        <p class="form__note">También puedes escribir directo a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></p>
+      </form>
+      <div class="form__ok" hidden>
+        <div class="check">✓</div>
+        <h2>Mensaje enviado</h2>
+        <p>Gracias. Te responderemos a la brevedad al correo que indicaste.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__row">
+      <div>
+        <img class="footer__logo" src="/assets/logo-white.png" alt="W-IT" width="811" height="776">
+        <p class="footer__tag">Adopción y Formación</p>
+        <p class="footer__claim">We Make It Simple</p>
+      </div>
+      <nav class="footer__links" aria-label="Enlaces del pie de página">
+        <ul><li><a href="/oferta/">Oferta</a></li><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/nosotros/">Nosotros</a></li></ul>
+        <ul><li><a href="/recursos/">Recursos</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></li></ul>
+      </nav>
+    </div>
+    <div class="footer__legal">© 2026 W-IT SpA · Santiago de Chile</div>
+  </div>
+</footer>
+
+</body>
+</html>

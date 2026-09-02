@@ -1,43 +1,57 @@
 # Sitio web W-IT Educa
 
 Sitio de WITEDUCA, la unidad de formación y adopción tecnológica de W-IT SpA.
+Publicado en Azure Static Web Apps en <https://witeduca.cl>.
 
-Importado desde el proyecto **"Sitio web W-IT Educa"** de [Claude Design](https://claude.ai/design).
+Diseño original creado en [Claude Design](https://claude.ai/design) y convertido
+a HTML estático en septiembre de 2026 para que Google lo indexe sin depender de
+JavaScript y para que funcione en móvil.
 
 ## Páginas
 
-| Archivo | Página |
-|---|---|
-| `index.html` | Home |
-| `Oferta.dc.html` | Oferta — 4 líneas de trabajo + carrusel de agentes IA |
-| `Adopcion.dc.html` | Adopción Garantizada — programa ancla |
-| `Nosotros.dc.html` | Nosotros — equipo, designaciones Microsoft, FAQ |
-| `Recursos.dc.html` | Recursos — artículos y hub de adopción Microsoft |
-| `Contacto.dc.html` | Contacto — formulario |
+| URL | Archivo | Página |
+|---|---|---|
+| `/` | `index.html` | Home |
+| `/oferta/` | `oferta/index.html` | Oferta — 4 líneas de trabajo + carrusel de agentes IA |
+| `/adopcion-garantizada/` | `adopcion-garantizada/index.html` | Adopción Garantizada — programa ancla |
+| `/nosotros/` | `nosotros/index.html` | Nosotros — designaciones Microsoft y FAQ |
+| `/recursos/` | `recursos/index.html` | Recursos — hub de adopción Microsoft |
+| `/contacto/` | `contacto/index.html` | Contacto — formulario |
+| — | `404.html` | Página de error |
 
-La home es `index.html`, así que la raíz del dominio (<https://www.witeduca.cl>) la sirve directamente.
+Las URLs antiguas (`/Oferta.dc.html`, etc.) redirigen con 301 a las nuevas; ver
+`staticwebapp.config.json`. `trailingSlash: always` normaliza `/oferta` → `/oferta/`.
 
-## Cómo verlo
+## Estructura
 
-Las páginas usan rutas relativas para `assets/`, así que **no funcionan abiertas con doble clic** (`file://`). Hay que servirlas por HTTP:
+```
+assets/site.css   hoja de estilos compartida (responsive, sistema de diseño W-IT)
+assets/site.js    interacciones sin framework: menú móvil, reveal, roadmap,
+                  carrusel de agentes, envío del formulario
+assets/*.png/webp logos, badges, favicon, imagen Open Graph
+robots.txt        permite todo salvo /api/, apunta al sitemap
+sitemap.xml       las 6 URLs públicas
+```
+
+Cada página lleva sus metadatos completos (`title`, `description`, `canonical`,
+Open Graph, favicon) y, donde aplica, datos estructurados JSON-LD:
+`EducationalOrganization` en la home, `Service` en Adopción Garantizada y
+`FAQPage` en Nosotros.
+
+Las páginas usan rutas absolutas (`/assets/...`), así que **no funcionan abiertas
+con doble clic** (`file://`). Para verlas en local:
 
 ```bash
 python -m http.server 8765
 ```
 
-Luego abrir <http://127.0.0.1:8765/>.
-
-## Formato `.dc.html`
-
-Cada página es un componente del runtime de Claude Design:
-
-- `<x-dc>` envuelve el markup, con interpolación `{{ }}`, `<sc-for>` (listas), `<sc-if>` (condicionales) y `style-hover` / `style-focus`.
-- El `<script type="text/x-dc">` final define una clase `Component extends DCLogic` con `state`, `componentDidMount()` y `renderVals()`.
-- `support.js` es el runtime que interpreta todo eso.
+Luego abrir <http://127.0.0.1:8765/>. El formulario solo funciona con la API
+levantada (ver más abajo); en `http.server` el envío falla con un mensaje de
+error controlado.
 
 ## Formulario de contacto → Dynamics 365
 
-El formulario de `Contacto.dc.html` hace `POST /api/contacto`. Esa ruta es una
+El formulario de `contacto/index.html` hace `POST /api/contacto`. Esa ruta es una
 Azure Function gestionada de Static Web Apps (`api/`) que crea un **Cliente
 potencial (Lead)** en Dataverse.
 
@@ -47,13 +61,28 @@ Cuenta + Contacto + Oportunidad. Así el tráfico anónimo de la web no entra
 directo al pipeline ni al forecast.
 
 ```
-Contacto.dc.html  --POST-->  api/src/functions/contacto.js
-                                 |-- api/src/lead.js       (validación + mapeo, lógica pura)
-                                 `-- api/src/dataverse.js  (token + Web API)
-                                          |
-                                          v
-                             POST /api/data/v9.2/leads
+contacto/index.html  --POST-->  api/src/functions/contacto.js
+                                   |-- api/src/lead.js       (validación + mapeo, lógica pura)
+                                   `-- api/src/dataverse.js  (token + Web API)
+                                            |
+                                            v
+                               POST /api/data/v9.2/leads
 ```
+
+Campos del formulario y su destino en el Lead:
+
+| Campo | Lead |
+|---|---|
+| nombre | `firstname` + `lastname` |
+| empresa | `companyname` |
+| cargo | `jobtitle` |
+| correo | `emailaddress1` |
+| telefono | `telephone1` |
+| tamano (tamaño de la organización) | línea en `description` — permite segmentar empresa grande / pyme / persona / sector público |
+| interes | `subject` y línea en `description` |
+| mensaje, origen (ruta + UTM), referente | `description` |
+
+El select de interés puede venir precargado desde la URL: `/contacto/?interes=Adopci%C3%B3n%20Garantizada`.
 
 ### 1. Registrar la aplicación en Entra ID
 
@@ -108,27 +137,22 @@ Function App externo, conviene migrar a managed identity y eliminar el secreto.
 - Límite de 5 envíos por IP cada 10 minutos. Es **best-effort**: la memoria no se
   comparte entre instancias ni sobrevive al reciclaje, así que frena a un bot torpe,
   no a uno distribuido. Ante abuso sostenido habría que agregar un captcha.
-- Validación en servidor del correo y del valor del select; los largos se recortan a
-  los límites de los campos de Dataverse para que la API no rechace el registro.
+- Validación en servidor del correo, del interés y del tamaño de organización; los
+  largos se recortan a los límites de los campos de Dataverse para que la API no
+  rechace el registro.
 
-## Dependencias
+## Pendientes
 
-**El sitio requiere conexión a internet para renderizar.** `support.js` carga tres librerías desde unpkg en tiempo de ejecución:
-
-```
-https://unpkg.com/react@18.3.1/umd/react.production.min.js
-https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js
-https://unpkg.com/@babel/standalone@7.29.0/babel.min.js
-```
-
-Sin acceso a unpkg la página queda en blanco. Antes de publicar en producción conviene vendorizar esas tres librerías al repositorio.
-
-`image-slot.js` (usado en `Nosotros` y `Recursos`) define el elemento `<image-slot>`, un placeholder de imagen que se puede rellenar arrastrando un archivo. Busca un sidecar `.image-slots.state.json` para persistir lo que se suelte; el **404 de ese archivo es esperado** mientras no se haya llenado ningún slot.
-
-## Pendientes de contenido
-
-- `Nosotros.dc.html`: los cuatro integrantes del equipo son `Nombre Apellido` con foto vacía, y hay dos slots de logos de clientes sin llenar.
-- `Recursos.dc.html`: los tres artículos están marcados *Próximamente* y sin imagen.
+- **Analítica**: falta agregar GA4 y Microsoft Clarity (requieren los IDs de las
+  cuentas) y registrar el dominio en Google Search Console y Bing Webmaster Tools.
+- **Equipo y clientes**: la sección de equipo y los logos de clientes se retiraron
+  porque solo había placeholders. Volver a agregarlos cuando existan nombres, fotos
+  y autorizaciones.
+- **Artículos**: Recursos muestra solo el hub oficial de Microsoft hasta que haya un
+  artículo propio publicado.
+- **Cifra "15+ años"**: confirmar con Administración antes de que quede indexada.
+- **Agentes**: la sección de Oferta mantiene los 15 agentes a la espera de decidir si
+  se reducen a ejemplos dentro del curso constructor de agentes.
 
 ---
 
