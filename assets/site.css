@@ -192,12 +192,12 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); color: inherit; }
 .card--white { background: #FFFFFF; border-color: var(--line); }
 .card--navy { background: var(--navy); border-color: var(--navy); }
-.card--navy h3 { color: #FFFFFF; }
-.card--navy p { color: rgba(255,255,255,0.75); }
+.card.card--navy h3 { color: #FFFFFF; }
+.card.card--navy p { color: rgba(255,255,255,0.78); }
 .card--glass { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); padding: 30px 28px; }
 .card--glass:hover { background: rgba(255,255,255,0.10); transform: none; box-shadow: none; }
-.card--glass h3 { color: #FFFFFF; font-size: 18px; }
-.card--glass p { color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6; margin: 10px 0 0; }
+.card.card--glass h3 { color: #FFFFFF; font-size: 18px; }
+.card.card--glass p { color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.6; margin: 10px 0 0; }
 .card--flat:hover { transform: none; box-shadow: none; }
 .card .num { font-size: 14px; font-weight: 600; color: var(--green); letter-spacing: 0.08em; }
 .card h3 { margin-top: 14px; }
