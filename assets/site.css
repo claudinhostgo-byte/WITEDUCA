@@ -109,7 +109,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .nav__logo { height: 52px; width: auto; }
 .nav__tag { padding-left: 16px; border-left: 1px solid var(--line); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
 .nav__partner { height: 76px; width: auto; margin-left: 12px; }
-.nav__links { display: flex; align-items: center; gap: 32px; font-size: 15px; margin: 0; padding: 0; list-style: none; }
+.nav__links { display: flex; align-items: center; gap: 28px; font-size: 15px; margin: 0; padding: 0; list-style: none; white-space: nowrap; }
 .nav__links a { color: var(--navy); }
 .nav__links a:hover { color: var(--green-dark); }
 .nav__links a[aria-current="page"] { color: var(--green-dark); font-weight: 600; }
@@ -121,7 +121,8 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .nav.is-open .nav__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
 .nav.is-open .nav__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-@media (max-width: 1200px) { .nav__partner { display: none; } .nav__links { gap: 22px; } }
+@media (max-width: 1400px) { .nav__partner { display: none; } }
+@media (max-width: 1200px) { .nav__links { gap: 22px; } }
 @media (max-width: 900px) {
   .nav__toggle { display: flex; }
   .nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 4px var(--pad) 20px; background: #FFFFFF; border-bottom: 1px solid var(--line-soft); box-shadow: 0 16px 32px rgba(0,0,0,.10); }
@@ -406,3 +407,21 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .band p:not(.eyebrow) { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--muted); max-width: 60ch; }
 .band .btn { flex-shrink: 0; }
 @media (max-width: 600px) { .band .btn { width: auto; } }
+
+/* ---------- Carrusel de logos de clientes ---------- */
+.logos { position: relative; overflow: hidden; margin-top: 36px; }
+.logos::before, .logos::after { content: ""; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 1; pointer-events: none; }
+.logos::before { left: 0; background: linear-gradient(90deg, var(--bg-soft), rgba(250,250,250,0)); }
+.logos::after { right: 0; background: linear-gradient(270deg, var(--bg-soft), rgba(250,250,250,0)); }
+.logos--on-white::before { background: linear-gradient(90deg, #FFFFFF, rgba(255,255,255,0)); }
+.logos--on-white::after { background: linear-gradient(270deg, #FFFFFF, rgba(255,255,255,0)); }
+.logos__track { display: flex; align-items: center; gap: 64px; width: max-content; padding: 8px 0; animation: wit-marquee 70s linear infinite; }
+.logos__track:hover { animation-play-state: paused; }
+.logos__track img { height: 44px; width: auto; max-width: 180px; object-fit: contain; flex-shrink: 0; }
+.logos__track img[alt="Teletón"], .logos__track img[alt="Easy"], .logos__track img[alt="SENCE"], .logos__track img[alt="Audax Italiano"], .logos__track img[alt="Grupo EMIN"], .logos__track img[alt="Ministerio de Justicia y Derechos Humanos"], .logos__track img[alt="Ministerio de Vivienda y Urbanismo"], .logos__track img[alt="Cermaq"] { height: 52px; }
+@media (max-width: 600px) { .logos__track { gap: 40px; animation-duration: 55s; } .logos__track img { height: 36px; max-width: 140px; } }
+@media (prefers-reduced-motion: reduce) {
+  .logos::before, .logos::after { display: none; }
+  .logos__track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; gap: 28px 40px; }
+  .logos__track--dup { display: none; }
+}

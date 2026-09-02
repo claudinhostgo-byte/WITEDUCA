@@ -30,6 +30,8 @@ assets/site.css   hoja de estilos compartida (responsive, sistema de diseño W-I
 assets/site.js    interacciones sin framework: menú móvil, reveal, roadmap,
                   carrusel de agentes, envío del formulario
 assets/*.png/webp logos, badges, favicon, imagen Open Graph
+assets/clientes/   29 logos de clientes (carrusel en home y Nosotros), extraídos de
+                  la presentación comercial clientes.pptx y normalizados a 112 px de alto
 robots.txt        permite todo salvo /api/, apunta al sitemap
 sitemap.xml       las 6 URLs públicas
 ```
@@ -165,9 +167,11 @@ para líderes". Reglas de ese camino:
 
 - **Analítica**: falta agregar GA4 y Microsoft Clarity (requieren los IDs de las
   cuentas) y registrar el dominio en Google Search Console y Bing Webmaster Tools.
-- **Equipo y clientes**: la sección de equipo y los logos de clientes se retiraron
-  porque solo había placeholders. Volver a agregarlos cuando existan nombres, fotos
-  y autorizaciones.
+- **Equipo**: la sección de equipo se retiró porque solo había placeholders. Volver a
+  agregarla cuando existan nombres y fotos.
+- **Logos de clientes**: el carrusel usa los 29 logos de la presentación comercial de
+  W-IT. Confirmar con Comercial que cada cliente autoriza su uso en la web y retirar
+  los que no.
 - **Artículos**: Recursos muestra solo el hub oficial de Microsoft hasta que haya un
   artículo propio publicado.
 - **Cifra "15+ años"**: confirmar con Administración antes de que quede indexada.
