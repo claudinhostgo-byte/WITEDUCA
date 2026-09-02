@@ -13,6 +13,7 @@ const INTERESES = [
   'Formación in-company',
   'Nivelación tecnológica',
   'Asesoría en IA / Gobernanza',
+  'Curso abierto',
   'Otro',
 ];
 

@@ -14,6 +14,7 @@ JavaScript y para que funcione en móvil.
 | `/` | `index.html` | Home |
 | `/oferta/` | `oferta/index.html` | Oferta — 4 líneas de trabajo + carrusel de agentes IA |
 | `/adopcion-garantizada/` | `adopcion-garantizada/index.html` | Adopción Garantizada — programa ancla |
+| `/cursos-abiertos/` | `cursos-abiertos/index.html` | Cursos abiertos — segundo camino: personas, ejecutivos y equipos pequeños |
 | `/nosotros/` | `nosotros/index.html` | Nosotros — designaciones Microsoft y FAQ |
 | `/recursos/` | `recursos/index.html` | Recursos — hub de adopción Microsoft |
 | `/contacto/` | `contacto/index.html` | Contacto — formulario |
@@ -141,7 +142,26 @@ Function App externo, conviene migrar a managed identity y eliminar el secreto.
   largos se recortan a los límites de los campos de Dataverse para que la API no
   rechace el registro.
 
+## Dos caminos en un sitio
+
+La home y la mayor parte del sitio hablan a la empresa (gerencia, TI, personas).
+`/cursos-abiertos/` es el camino para personas, ejecutivos y equipos pequeños:
+versiones abiertas de una jornada de "Copilot en el trabajo diario" e "IA aplicada
+para líderes". Reglas de ese camino:
+
+- **No se publican fechas ni precios hasta que la cohorte esté confirmada** (fecha,
+  relator y cupo). Mientras, el CTA es dejar el correo con interés "Curso abierto".
+- Se vende como la misma metodología corporativa en formato corto, no como curso
+  barato, para proteger el precio in-company.
+- No se menciona franquicia SENCE hasta resolver el registro OTEC.
+- Tono: "tú", "tu trabajo", "esta semana". El resto del sitio usa "tu organización",
+  "gerencia", "dotación".
+
 ## Pendientes
+
+- **Cursos abiertos**: confirmar el formato de una jornada, definir la primera cohorte
+  (curso, fecha, relator, cupo mínimo, precio por persona) y decidir cómo se
+  inscribe y paga. Hasta entonces la página solo capta interés.
 
 - **Analítica**: falta agregar GA4 y Microsoft Clarity (requieren los IDs de las
   cuentas) y registrar el dominio en Google Search Console y Bing Webmaster Tools.

@@ -396,3 +396,12 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
   .js .reveal { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
 }
+
+/* ---------- Franja "Cursos abiertos" (segundo camino en la home) ---------- */
+.band { padding: 30px var(--pad); background: var(--green-soft); border-bottom: 1px solid var(--line-soft); }
+.band .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px 40px; flex-wrap: wrap; }
+.band h2 { margin-top: 8px; font-size: clamp(19px, 2vw, 22px); font-weight: 600; color: var(--navy); max-width: 40ch; }
+.band h2 em { font-style: normal; color: var(--green-dark); }
+.band p:not(.eyebrow) { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--muted); max-width: 60ch; }
+.band .btn { flex-shrink: 0; }
+@media (max-width: 600px) { .band .btn { width: auto; } }
