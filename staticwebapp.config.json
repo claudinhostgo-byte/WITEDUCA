@@ -3,7 +3,7 @@
   "platform": {
     "apiRuntime": "node:20"
   },
-  "trailingSlash": "always",
+  "trailingSlash": "auto",
   "routes": [
     { "route": "/index.html", "redirect": "/", "statusCode": 301 },
     { "route": "/Oferta.dc.html", "redirect": "/oferta/", "statusCode": 301 },

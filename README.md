@@ -20,7 +20,7 @@ JavaScript y para que funcione en móvil.
 | — | `404.html` | Página de error |
 
 Las URLs antiguas (`/Oferta.dc.html`, etc.) redirigen con 301 a las nuevas; ver
-`staticwebapp.config.json`. `trailingSlash: always` normaliza `/oferta` → `/oferta/`.
+`staticwebapp.config.json`. `trailingSlash: auto` normaliza `/oferta` → `/oferta/` sin tocar archivos como `robots.txt`.
 
 ## Estructura
 
