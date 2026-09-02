@@ -425,3 +425,10 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
   .logos__track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; gap: 28px 40px; }
   .logos__track--dup { display: none; }
 }
+
+/* ---------- Foto de las oficinas (Contacto) ---------- */
+.office { margin: 40px 0 0; max-width: 420px; }
+.office img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 14px; box-shadow: var(--shadow-md); }
+.office figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.office figcaption strong { color: var(--navy); font-weight: 600; }
+@media (max-width: 900px) { .office { max-width: 340px; margin-top: 32px; } }
