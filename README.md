@@ -32,6 +32,9 @@ assets/site.js    interacciones sin framework: menú móvil, reveal, roadmap,
 assets/*.png/webp logos, badges, favicon, imagen Open Graph
 assets/clientes/   29 logos de clientes (carrusel en home y Nosotros), extraídos de
                   la presentación comercial clientes.pptx y normalizados a 112 px de alto
+assets/eventos/    12 fotos de eventos optimizadas (WebP + JPEG, 1000 px) para la galería
+                  de Nosotros y la franja de la home. Los originales van en
+                  assets/eventos/originales/, que está en .gitignore
 robots.txt        permite todo salvo /api/, apunta al sitemap
 sitemap.xml       las 6 URLs públicas
 ```
@@ -169,6 +172,9 @@ para líderes". Reglas de ese camino:
   cuentas) y registrar el dominio en Google Search Console y Bing Webmaster Tools.
 - **Equipo**: la sección de equipo se retiró porque solo había placeholders. Volver a
   agregarla cuando existan nombres y fotos.
+- **Fotos de eventos**: aparecen personas identificables (participantes de clientes,
+  equipo de W-IT). Confirmar que existe consentimiento para publicarlas en la web,
+  según la Ley 21.719, y retirar las que no lo tengan.
 - **Logos de clientes**: el carrusel usa los 29 logos de la presentación comercial de
   W-IT. Confirmar con Comercial que cada cliente autoriza su uso en la web y retirar
   los que no.

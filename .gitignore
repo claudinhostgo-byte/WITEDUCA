@@ -9,3 +9,6 @@ WITEDUCA-catalogo-y-modelo-de-negocio-v01.md
 # Azure Functions (API)
 api/node_modules/
 api/local.settings.json
+
+# Fotos originales de eventos (pesadas); en el sitio van las optimizadas
+assets/eventos/originales/
