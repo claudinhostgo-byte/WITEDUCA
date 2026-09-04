@@ -404,6 +404,10 @@ html:not(.js) .nav__btn::after { display: none; }
 /* ---------- Modal del formulario ---------- */
 /* El segundo de los dos formularios del sitio. Se abre desde cualquier boton con
    data-form="<interes>" y ese interes queda precargado en el select. */
+/* .modal fija display:flex y le gana al display:none del atributo hidden, igual
+   que pasa con .card y con .agent. Sin esta regla el modal queda visible
+   siempre y tapa el sitio completo. */
+.modal[hidden] { display: none; }
 .modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: flex-start; justify-content: center; padding: 24px; overflow-y: auto; overscroll-behavior: contain; }
 .modal__fondo { position: fixed; inset: 0; background: rgba(20,41,58,0.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
 .modal__caja { position: relative; width: 100%; max-width: 620px; margin: auto; padding: 40px 40px 34px; background: #FFFFFF; border-radius: 14px; box-shadow: 0 24px 64px rgba(0,0,0,.28); }
