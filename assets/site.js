@@ -202,6 +202,11 @@
           if (r.res.ok && r.data.ok) {
             form.hidden = true;
             if (okBox) okBox.hidden = false;
+            // En el modal la cabecera sobra una vez enviado: si no, quedan dos
+            // titulos, "Cuentanos que necesitas" y el del mensaje de exito.
+            var cajaModal = form.closest(".modal");
+            var cab = cajaModal && $(".modal__cab", cajaModal);
+            if (cab) cab.hidden = true;
           } else {
             showError(mensajeError(r.data.error, r.data.campos));
           }
@@ -258,6 +263,8 @@
       formModal.reset();
       formModal.hidden = false;
       if (okModal) okModal.hidden = true;
+      var cab = $(".modal__cab", modal);
+      if (cab) cab.hidden = false;
       var err = $(".form__error", formModal);
       if (err) err.hidden = true;
 
