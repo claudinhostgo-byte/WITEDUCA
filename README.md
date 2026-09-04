@@ -29,7 +29,8 @@ Las URLs antiguas (`/Oferta.dc.html`, etc.) redirigen con 301 a las nuevas; ver
 
 ```
 assets/site.css   hoja de estilos compartida (responsive, sistema de diseño W-IT)
-assets/site.js    interacciones sin framework: menú móvil, reveal, roadmap,
+assets/site.js    interacciones sin framework: menú móvil, desplegables, reveal,
+                  roadmap, modal del formulario,
                   carrusel de agentes, envío del formulario
 assets/*.png/webp logos, badges, favicon, imagen Open Graph
 assets/claude-logo.webp       lockup horizontal de Claude (hero de /claude/)
@@ -71,6 +72,74 @@ Si vienes de una sesion en que si lo usaste, un `Ctrl+Shift+R` limpia la entrada
 ya cacheada. El formulario solo funciona con la API
 levantada (ver más abajo); con el servidor local el envío falla con un mensaje de
 error controlado.
+
+## Los dos formularios del sitio
+
+Hay **exactamente dos**, y los dos postean a `/api/contacto`:
+
+1. **`#form-contacto`** — el de `/contacto/`, la página "Conversemos".
+2. **`#form-modal`** — un modal inyectado en las 10 páginas, que se abre al
+   pinchar cualquier curso o programa.
+
+Comparten el manejador de envío en `site.js` (`conectarForm`), así que la
+traducción de errores y el estado del botón son los mismos en los dos.
+
+### Cómo se abre el modal
+
+Cualquier elemento con `data-form="<interes>"` lo abre y **precarga ese interes en
+el select**. Hay 44 disparadores repartidos en 19 valores distintos.
+
+```html
+<a class="btn btn--outline btn--sm"
+   href="/contacto/?interes=Power%20Platform%20para%20el%20negocio"
+   data-form="Power Platform para el negocio">Cotizar este curso</a>
+```
+
+**El `href` se mantiene a proposito.** Sin JavaScript el boton sigue siendo un
+enlace normal a `/contacto/` con el interes precargado por `?interes=`; `site.js`
+solo intercepta el clic. Al agregar un CTA nuevo, poner los dos: `href` y
+`data-form`, con el mismo valor.
+
+**Cada apertura parte en limpio:** `form.reset()`, se oculta el mensaje de exito y
+el de error, y se vuelve a fijar el interes. Era un requisito explicito: que cada
+clic vuelva a pedir los datos.
+
+Incluye Escape, clic en el fondo, boton de cierre, trampa de foco mientras esta
+abierto, retorno del foco al boton que lo abrio y bloqueo del scroll del body.
+
+### Que abre el modal y que no
+
+- **Si**: los 5 cursos in-company, nivelacion y las 3 asesorias de `/oferta/`; los
+  5 cursos de `/claude/`; los 2 cursos de `/cursos-abiertos/`; Adopcion
+  Garantizada; y los paquetes de `/consultores/` (pagina oculta hoy).
+- **No**: "Conversemos" del menu y "Contacto" del footer, que navegan a
+  `/contacto/`. Tampoco los 15 agentes de `/oferta/`: son ejemplos dentro de un
+  curso, no unidades que se compren.
+- Los CTA genericos de pagina ("Cual Copilot necesito?", "Hablemos de mi equipo")
+  abren el modal con el interes **"Todavia no lo se, quiero orientacion"**. Es un
+  dato util: dice que la persona quiere que la orienten, no que no le interesa nada.
+
+### El catalogo de intereses es una sola fuente
+
+Los valores tienen que coincidir en tres lugares o **la API rechaza el envio con
+`campos_invalidos`**. Los tres los genera `tools/nav/build-nav.py` desde su lista
+`INTERESES`:
+
+1. el `<select name="interes">` de `/contacto/`
+2. el `<select name="interes">` del modal
+3. la lista `INTERESES` de `api/src/lead.js`, entre los marcadores
+   `/* build-nav:intereses-inicio */` y `-fin`
+
+**No editar ninguno de los tres a mano.** Se edita el catalogo del script y se
+corre `python tools/nav/build-nav.py`.
+
+Son 20 valores agrupados con `<optgroup>` por programa, curso, ecosistema y
+asesoria, mas 4 valores de la version anterior del sitio que `lead.js` sigue
+aceptando — y que ya no se ofrecen en los select — para que un enlace viejo
+circulando por correo no falle al enviarse.
+
+El grano fino es deliberado: el Lead le llega a Comercial con el curso exacto en
+el asunto, no con una categoria.
 
 ## Formulario de contacto → Dynamics 365
 

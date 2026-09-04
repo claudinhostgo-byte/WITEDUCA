@@ -77,6 +77,156 @@ FOOTER_COLS = [
     ]),
 ]
 
+# --- Catalogo de intereses: fuente unica -------------------------------------
+# De aqui salen los tres lugares que deben coincidir o la API rechaza el envio:
+#   1. el <select name="interes"> del formulario de /contacto/
+#   2. el <select name="interes"> del modal, inyectado en todas las paginas
+#   3. la lista INTERESES de api/src/lead.js
+# Cada valor es tambien el que va en data-form="..." del boton que abre el modal.
+INTERESES = [
+    ('Programas', [
+        'Adopción Garantizada',
+        'Nivelación tecnológica',
+    ]),
+    ('Cursos in-company · Microsoft', [
+        'Piso Digital',
+        'Copilot en el trabajo diario',
+        'Power Platform para el negocio',
+        'IA aplicada para líderes',
+        'Constructor de agentes',
+    ]),
+    ('Cursos abiertos', [
+        'Curso abierto: Copilot en el trabajo diario',
+        'Curso abierto: IA aplicada para líderes',
+    ]),
+    ('Claude de Anthropic', [
+        'Claude en el trabajo diario',
+        'Certificación Claude Associate',
+        'Certificación Claude Developer',
+        'Certificación Claude Architect – Foundations',
+        'Certificación Claude Architect – Professional',
+    ]),
+    ('Asesorías en IA', [
+        'Diagnóstico de Madurez IA',
+        'Política y Gobernanza de IA',
+        'Acompañamiento en IA',
+    ]),
+    ('Otro', [
+        # Para los CTA genericos de pagina ("Conversemos", "Cual Copilot
+        # necesito?"): la persona no eligio un curso, quiere que la orienten.
+        'Todavía no lo sé, quiero orientación',
+        'Agendar hora con un consultor',
+        'Otro',
+    ]),
+]
+
+# Valores de la version anterior del sitio. Ya no se ofrecen en los select, pero
+# la API los sigue aceptando para que un enlace viejo que ande circulando por
+# correo no falle al enviar.
+INTERESES_LEGADO = [
+    'Formación in-company',
+    'Asesoría en IA / Gobernanza',
+    'Curso abierto',
+    'Formación en Claude',
+]
+
+
+def valores_intereses():
+    out = []
+    for _, items in INTERESES:
+        out.extend(items)
+    return out
+
+
+def opciones_select():
+    """<optgroup> con las opciones, para pegar dentro de un <select>."""
+    fuera = []
+    for grupo, items in INTERESES:
+        if grupo == 'Otro':
+            fuera.extend(items)
+            continue
+        ops = u''.join(u'<option>%s</option>' % i for i in items)
+        fuera.append(u'<optgroup label="%s">%s</optgroup>' % (grupo, ops))
+    return u''.join(
+        o if o.startswith('<optgroup') else u'<option>%s</option>' % o
+        for o in fuera
+    )
+
+
+CAMPOS_FORM = u"""        <div class="form__row">
+          <label class="field">Nombre
+            <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name" required maxlength="120">
+          </label>
+          <label class="field">Empresa u organización
+            <input type="text" name="empresa" placeholder="Tu organización" autocomplete="organization" maxlength="100">
+          </label>
+        </div>
+        <div class="form__row">
+          <label class="field">Cargo <small>(opcional)</small>
+            <input type="text" name="cargo" placeholder="Gerente de TI, jefa de personas…" autocomplete="organization-title" maxlength="100">
+          </label>
+          <label class="field">Tamaño de la organización
+            <select name="tamano" required>
+              <option value="" selected disabled>Selecciona</option>
+              <option>Solo yo</option>
+              <option>2 a 50 personas</option>
+              <option>51 a 500 personas</option>
+              <option>Más de 500 personas</option>
+              <option>Sector público</option>
+            </select>
+          </label>
+        </div>
+        <div class="form__row">
+          <label class="field">Correo
+            <input type="email" name="correo" placeholder="nombre@empresa.cl" autocomplete="email" required maxlength="100">
+          </label>
+          <label class="field">Teléfono <small>(opcional)</small>
+            <input type="tel" name="telefono" placeholder="+56 9 …" autocomplete="tel" maxlength="50">
+          </label>
+        </div>
+        <label class="field">¿Qué te interesa?
+          <select name="interes" required>%(opciones)s</select>
+        </label>
+        <label class="field">Mensaje <small>(opcional)</small>
+          <textarea name="mensaje" rows="3" placeholder="Cuéntanos brevemente tu situación" maxlength="2000"></textarea>
+        </label>
+        <input class="hp" type="text" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form__error" role="alert" hidden></div>
+        <button class="form__submit" type="submit">Enviar</button>
+        <p class="form__note">O escríbenos directo a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></p>
+"""
+
+
+def construir_modal():
+    """El segundo de los dos formularios del sitio, inyectado en cada pagina.
+
+    Se abre al pinchar cualquier boton con data-form="<interes>" y precarga ese
+    interes en el select. Los botones conservan su href a /contacto/?interes=...,
+    asi que sin JavaScript siguen funcionando como enlace normal.
+    """
+    return (
+        u'<!-- modal:inicio -->\n'
+        u'<div class="modal" id="modal-form" hidden>\n'
+        u'  <div class="modal__fondo" data-modal-cerrar></div>\n'
+        u'  <div class="modal__caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">\n'
+        u'    <button class="modal__x" type="button" data-modal-cerrar aria-label="Cerrar">&times;</button>\n'
+        u'    <p class="eyebrow eyebrow--green" data-modal-sobre></p>\n'
+        u'    <h2 class="modal__t" id="modal-titulo">Cuéntanos qué necesitas</h2>\n'
+        u'    <p class="modal__sub">Te respondemos al correo que dejes. Sin compromiso.</p>\n'
+        u'    <form class="form" id="form-modal" method="post" action="/api/contacto" novalidate>\n'
+        + CAMPOS_FORM % {'opciones': opciones_select()} +
+        u'    </form>\n'
+        u'    <div class="form__ok" hidden>\n'
+        u'      <div class="check">&#10003;</div>\n'
+        u'      <h2>Mensaje enviado</h2>\n'
+        u'      <p>Gracias. Te responderemos a la brevedad al correo que indicaste.</p>\n'
+        u'    </div>\n'
+        u'  </div>\n'
+        u'</div>\n'
+        u'<!-- modal:fin -->'
+    )
+
+
 LEGAL = (u'© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile · '
          u'Claude y Anthropic son marcas de Anthropic PBC. WITEDUCA no está afiliada '
          u'a Anthropic; las certificaciones las emite Anthropic.')
@@ -186,6 +336,45 @@ def construir_footer(url, minimo=False):
 
 RE_NAV = re.compile(r'<header class="nav">.*?</header>', re.S)
 RE_FOOTER = re.compile(r'<footer class="footer">.*?</footer>', re.S)
+RE_MODAL = re.compile(r'<!-- modal:inicio -->.*?<!-- modal:fin -->', re.S)
+RE_SELECT = re.compile(r'(<select name="interes" required>)(.*?)(</select>)', re.S)
+
+
+def poner_modal(s):
+    """Inserta o reemplaza el modal justo antes de </body>."""
+    modal = construir_modal()
+    if RE_MODAL.search(s):
+        return RE_MODAL.sub(lambda m: modal, s, count=1)
+    return s.replace('</body>', modal + '\n\n</body>', 1)
+
+
+def poner_opciones(s):
+    """Sincroniza las opciones de cualquier <select name="interes"> de la pagina."""
+    ops = opciones_select()
+    return RE_SELECT.sub(lambda m: m.group(1) + ops + m.group(3), s)
+
+
+def escribir_lead_js():
+    """Reescribe la lista INTERESES de api/src/lead.js entre sus marcadores."""
+    ruta = os.path.join(RAIZ, 'api', 'src', 'lead.js')
+    s = io.open(ruta, encoding='utf-8').read()
+    valores = valores_intereses()
+    lineas = [u'const INTERESES = [']
+    for v in valores:
+        lineas.append(u"  '%s'," % v)
+    lineas.append(u'  // Valores de la version anterior: no se ofrecen en los select, pero se')
+    lineas.append(u'  // siguen aceptando para no romper enlaces viejos que anden circulando.')
+    for v in INTERESES_LEGADO:
+        lineas.append(u"  '%s'," % v)
+    lineas.append(u'];')
+    bloque = u'\n'.join(lineas)
+    nuevo = re.sub(
+        r'(/\* build-nav:intereses-inicio \*/\n).*?(\n/\* build-nav:intereses-fin \*/)',
+        lambda m: m.group(1) + bloque + m.group(2), s, count=1, flags=re.S)
+    if nuevo == s:
+        return False
+    io.open(ruta, 'w', encoding='utf-8', newline='').write(nuevo)
+    return True
 
 
 def main():
@@ -202,6 +391,8 @@ def main():
 
         s = RE_NAV.sub(lambda m: construir_nav(url), s, count=1)
         s = RE_FOOTER.sub(lambda m: construir_footer(url, minimo=(archivo == '404.html')), s, count=1)
+        s = poner_modal(s)
+        s = poner_opciones(s)
 
         if s == original:
             continue
@@ -209,6 +400,10 @@ def main():
         if not solo_check:
             io.open(ruta, 'w', encoding='utf-8', newline='').write(s)
             tocadas.append(archivo)
+
+    lead_cambio = False
+    if not solo_check:
+        lead_cambio = escribir_lead_js()
 
     if solo_check:
         if desfasadas:
@@ -218,6 +413,9 @@ def main():
             raise SystemExit(1)
         print('OK: las %d paginas tienen la nav y el footer al dia.' % len(PAGINAS))
     else:
+        if lead_cambio:
+            print('api/src/lead.js: lista INTERESES regenerada (%d valores + %d legado)'
+                  % (len(valores_intereses()), len(INTERESES_LEGADO)))
         print('Actualizadas %d de %d paginas:' % (len(tocadas), len(PAGINAS)))
         for f in tocadas:
             print('  ' + f)

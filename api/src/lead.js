@@ -7,17 +7,41 @@
  * probarla de forma aislada. El handler HTTP vive en functions/contacto.js.
  */
 
-/** Opciones válidas del select "¿Qué te interesa?" en contacto/index.html */
+/** Opciones válidas del select "¿Qué te interesa?".
+ *
+ *  GENERADO: lo escribe tools/nav/build-nav.py desde su catálogo INTERESES, que
+ *  es la única fuente de verdad y también genera los <select> del formulario de
+ *  /contacto/ y del modal. No editar a mano entre los marcadores. */
+/* build-nav:intereses-inicio */
 const INTERESES = [
   'Adopción Garantizada',
-  'Formación in-company',
   'Nivelación tecnológica',
+  'Piso Digital',
+  'Copilot en el trabajo diario',
+  'Power Platform para el negocio',
+  'IA aplicada para líderes',
+  'Constructor de agentes',
+  'Curso abierto: Copilot en el trabajo diario',
+  'Curso abierto: IA aplicada para líderes',
+  'Claude en el trabajo diario',
+  'Certificación Claude Associate',
+  'Certificación Claude Developer',
+  'Certificación Claude Architect – Foundations',
+  'Certificación Claude Architect – Professional',
+  'Diagnóstico de Madurez IA',
+  'Política y Gobernanza de IA',
+  'Acompañamiento en IA',
+  'Todavía no lo sé, quiero orientación',
+  'Agendar hora con un consultor',
+  'Otro',
+  // Valores de la version anterior: no se ofrecen en los select, pero se
+  // siguen aceptando para no romper enlaces viejos que anden circulando.
+  'Formación in-company',
   'Asesoría en IA / Gobernanza',
   'Curso abierto',
   'Formación en Claude',
-  'Agendar hora con un consultor',
-  'Otro',
 ];
+/* build-nav:intereses-fin */
 
 /** Opciones válidas del select "Tamaño de la organización". Permite segmentar
  *  el Lead (empresa grande, pyme, persona, sector público) sin dos formularios. */
