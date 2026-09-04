@@ -215,6 +215,52 @@ desarrollo local.
 opciones estándar de D365. Si tu entorno lo personalizó, confirma el valor real
 antes de publicar.
 
+### Diagnostico de la conexion
+
+`GET /api/health` responde que variables de entorno estan presentes, en booleanos:
+nunca devuelve un valor. Con **`?verificar=1`** ademas prueba la conexion de
+verdad y distingue las fallas que desde fuera se ven iguales:
+
+```bash
+curl -s "https://witeduca.cl/api/health?verificar=1"
+```
+
+```json
+{"token": {"ok": true}, "whoAmI": {"ok": true}, "leerLeads": {"ok": true}}
+```
+
+- **`token`** falla -> la credencial esta mal. Devuelve el codigo `AADSTS`.
+- **`whoAmI`** falla -> la credencial sirve pero el usuario de aplicacion no
+  existe en ese entorno, o apunta a otro.
+- **`leerLeads`** falla -> el rol de seguridad no se esta aplicando.
+
+El resultado se cachea 60 s, porque el endpoint es publico y no queremos que se
+pueda usar para golpear Entra en bucle.
+
+### Los privilegios que el rol necesita de verdad
+
+El rol minimo `WIT - CREA - LEADS - WEB` no basta con Crear sobre Cliente
+potencial. Al crear un Lead, Dynamics crea tambien la instancia del flujo de
+proceso de negocio de Ventas, y sin permiso sobre esa tabla **la creacion
+completa se revierte** con un 403.
+
+Privilegios necesarios, todos en alcance Organizacion:
+
+| Tabla | Privilegios |
+|---|---|
+| Cliente potencial (`lead`) | Crear, Leer, Anexar, Anexar a |
+| Instancia de proceso de venta (`salesprocessinstance`) | Crear, Leer, Escribir, Anexar, Anexar a |
+| Trabajo del sistema (`asyncoperation`) | Leer |
+
+Se descubrio iterando: el mensaje de Dataverse nombra la tabla que falta. Si el
+dia de manana se activa otro proceso automatico sobre Lead, puede aparecer otra
+tabla y habra que agregarla igual. El sintoma siempre es el mismo: `502
+crm_no_disponible` en el formulario, con token y WhoAmI en verde.
+
+Se prefirio este rol a medida antes que asignar *Vendedor*: si el secreto se
+filtra, el dano queda acotado a crear Clientes potenciales y no a leerse la base
+comercial completa.
+
 ### Nota sobre el secreto
 
 Las Functions gestionadas de Static Web Apps **no soportan identidad

@@ -103,64 +103,6 @@ async function verificar() {
   return r;
 }
 
-/**
- * Intento real de creacion, solo con ?verificar=1&crear=1.
- *
- * Existe para leer el mensaje de error de Dataverse, que nombra el privilegio
- * que falta. La ruta normal /api/contacto lo esconde a proposito y solo lo deja
- * en los logs, que en Functions gestionadas de Static Web Apps no son comodos.
- *
- * TEMPORAL: quitar en cuanto la conexion quede andando.
- */
-async function probarCreacion() {
-  const url = (process.env.DATAVERSE_URL || '').replace(/\/+$/, '');
-  try {
-    const res = await fetch(
-      `https://login.microsoftonline.com/${encodeURIComponent(process.env.DATAVERSE_TENANT_ID || '')}/oauth2/v2.0/token`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          grant_type: 'client_credentials',
-          client_id: process.env.DATAVERSE_CLIENT_ID || '',
-          client_secret: process.env.DATAVERSE_CLIENT_SECRET || '',
-          scope: `${url}/.default`,
-        }),
-      }
-    );
-    if (!res.ok) return { ok: false, paso: 'token' };
-    const token = (await res.json()).access_token;
-
-    const lead = {
-      subject: 'PRUEBA TECNICA - diagnostico de conexion',
-      lastname: 'PRUEBA TECNICA - no contactar',
-      emailaddress1: 'contacto@witeduca.cl',
-      description: 'Registro de diagnostico de la conexion del formulario web. Se puede eliminar.',
-    };
-
-    const cr = await fetch(`${url}/api/data/v9.2/leads`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json; charset=utf-8',
-        Accept: 'application/json',
-        'OData-MaxVersion': '4.0',
-        'OData-Version': '4.0',
-      },
-      body: JSON.stringify(lead),
-    });
-
-    if (cr.ok) {
-      const id = (cr.headers.get('OData-EntityId') || '').match(/\(([0-9a-fA-F-]{36})\)/);
-      return { ok: true, leadId: id ? id[1] : null };
-    }
-    const d = await cr.text().catch(() => '');
-    return { ok: false, http: cr.status, detalle: d.slice(0, 1200) };
-  } catch (e) {
-    return { ok: false, error: e.message.slice(0, 300) };
-  }
-}
-
 app.http('health', {
   methods: ['GET'],
   authLevel: 'anonymous',
@@ -181,10 +123,6 @@ app.http('health', {
       verificacion = faltantes.length
         ? { omitida: 'faltan variables de entorno' }
         : await verificar();
-
-      if (!faltantes.length && new URL(request.url).searchParams.get('crear') === '1') {
-        verificacion.crearLead = await probarCreacion();
-      }
     }
 
     return {
