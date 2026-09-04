@@ -16,7 +16,7 @@ JavaScript y para que funcione en móvil.
 | `/adopcion-garantizada/` | `adopcion-garantizada/index.html` | Adopción Garantizada — programa ancla |
 | `/cursos-abiertos/` | `cursos-abiertos/index.html` | Cursos abiertos — segundo camino: personas, ejecutivos y equipos pequeños |
 | `/claude/` | `claude/index.html` | Claude de Anthropic — curso de entrada + preparación para las 4 certificaciones |
-| `/consultores/` | `consultores/index.html` | Consultores — horas de consultoría agendables, 8 relatores + paquetes por nivel |
+| `/consultores/` | `consultores/index.html` | Consultores — **oculta**: `noindex`, fuera del menú y del sitemap (ver abajo) |
 | `/nosotros/` | `nosotros/index.html` | Nosotros — designaciones Microsoft y FAQ |
 | `/recursos/` | `recursos/index.html` | Recursos — hub de adopción Microsoft + material oficial de Anthropic y guías de examen |
 | `/contacto/` | `contacto/index.html` | Contacto — formulario |
@@ -278,7 +278,37 @@ El formulario tiene el interés **"Formación en Claude"**, precargable con
 `contacto/index.html` **y** en la lista `INTERESES` de `api/src/lead.js`: si se agrega
 en uno y no en el otro, la API rechaza el envío con `campos_invalidos`.
 
-## Consultores: horas agendables
+## Consultores: horas agendables — OCULTA HOY
+
+`/consultores/` **no está publicada**. Existe, se despliega y responde por URL
+directa, pero:
+
+- lleva `<meta name="robots" content="noindex, nofollow">`
+- no está en `sitemap.xml`
+- no está en el menú ni en el footer (comentado en `tools/nav/build-nav.py`)
+- no la enlaza ninguna otra página: se quitaron la franja de la home y las notas
+  de `/oferta/`, `/claude/` y `/contacto/`
+
+La razón: **ni los relatores ni las tarifas están definidos**. Estuvo pública unos
+minutos el 4 de septiembre de 2026 y se retiró el mismo día; es improbable que
+alcanzara a indexarse, pero conviene revisar Search Console cuando esté conectado.
+
+### Para publicarla
+
+1. Reemplazar los 8 placeholders por nombres, fotos, roles y tarifas reales.
+2. Poner las URLs de Microsoft Bookings en el `href` de cada ficha (cada una tiene
+   un comentario HTML marcando el punto).
+3. Quitar el `<meta name="robots">` de `consultores/index.html`.
+4. En `tools/nav/build-nav.py`, devolver `('Horas con un consultor',
+   '/consultores/')` al grupo Consultoría y a su columna del footer, y volver el
+   descriptor del grupo a "Por hora o por proyecto". Correr el script.
+5. Volver a agregar la URL a `sitemap.xml`.
+6. Restituir los enlaces cruzados si se quieren: franja en la home, nota en
+   `/oferta/` bajo Línea 1, nota en `/claude/` bajo las certificaciones, y nota en
+   `/contacto/` sobre el detalle precargado.
+
+Lo que sigue describe la página tal como está construida.
+
 
 `/consultores/` vende **horas de un relator**, no un curso cerrado. Es la puerta de
 entrada más chica del sitio: una hora suelta para una duda concreta, o un paquete
@@ -455,7 +485,12 @@ mide 602 px. Al agregar o renombrar items del menu, **volver a medir**: el marge
 
 - **Consultores — datos de las personas**: nombre, foto, rol definitivo, confirmación
   de disponibilidad para horas agendadas y tarifa, por cada uno de los 8 relatores.
-  **Bloqueante para publicar `/consultores/`.**
+  **Es lo que mantiene la página oculta.** Los seis pasos para publicarla estan en la
+  seccion "Consultores".
+
+  El interes "Agendar hora con un consultor" se mantiene en el formulario y en la
+  whitelist de `api/src/lead.js`: la pagina sigue operativa por URL directa y sus
+  botones necesitan que exista.
 
 - **Consultores — tarifas**: definir con Comercial el valor hora (¿uno solo, o por
   seniority del relator?) y si los paquetes tienen precio propio o son valor hora ×
