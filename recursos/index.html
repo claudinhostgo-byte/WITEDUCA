@@ -180,9 +180,11 @@
   <div class="modal__fondo" data-modal-cerrar></div>
   <div class="modal__caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
     <button class="modal__x" type="button" data-modal-cerrar aria-label="Cerrar">&times;</button>
-    <p class="eyebrow eyebrow--green" data-modal-sobre></p>
-    <h2 class="modal__t" id="modal-titulo">Cuéntanos qué necesitas</h2>
-    <p class="modal__sub">Te respondemos al correo que dejes. Sin compromiso.</p>
+    <div class="modal__cab">
+      <p class="eyebrow eyebrow--green" data-modal-sobre></p>
+      <h2 class="modal__t" id="modal-titulo">Cuéntanos qué necesitas</h2>
+      <p class="modal__sub">Te respondemos al correo que dejes. Sin compromiso.</p>
+    </div>
     <form class="form" id="form-modal" method="post" action="/api/contacto" novalidate>
         <div class="form__row">
           <label class="field">Nombre
@@ -228,8 +230,9 @@
     </form>
     <div class="form__ok" hidden>
       <div class="check">&#10003;</div>
-      <h2>Mensaje enviado</h2>
-      <p>Gracias. Te responderemos a la brevedad al correo que indicaste.</p>
+      <h2>Listo, recibimos tu mensaje</h2>
+      <p>Te escribimos al correo que dejaste. Si es urgente, también puedes escribirnos a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a>.</p>
+      <button class="btn btn--navy btn--sm" type="button" data-modal-cerrar>Cerrar</button>
     </div>
   </div>
 </div>

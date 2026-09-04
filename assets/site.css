@@ -39,6 +39,10 @@ body {
   overflow-x: hidden;
 }
 img { max-width: 100%; }
+/* El [hidden] del navegador pierde ante cualquier clase que fije display.
+   Con esto, poner el atributo hidden siempre oculta de verdad. La unica
+   excepcion, el panel del menu sin JavaScript, se declara con !important. */
+[hidden] { display: none !important; }
 a { color: var(--green-dark); text-decoration: none; }
 a:hover { color: var(--green); }
 button { font-family: inherit; }
@@ -133,7 +137,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
    sitio. Misma convencion que .reveal: si no hay clase .js, todo se muestra.
    Queda como una tira tipo mapa del sitio, no bonita pero completa y navegable. */
 html:not(.js) .nav__links { flex-wrap: wrap; align-items: flex-start; }
-html:not(.js) .nav__panel[hidden] { display: block; position: static; min-width: 0; padding: 6px 0 0; background: none; border: 0; box-shadow: none; }
+html:not(.js) .nav__panel[hidden] { display: block !important; position: static; min-width: 0; padding: 6px 0 0; background: none; border: 0; box-shadow: none; }
 html:not(.js) .nav__panel a { padding: 5px 0; white-space: nowrap; }
 html:not(.js) .nav__btn { cursor: default; }
 html:not(.js) .nav__btn::after { display: none; }
@@ -418,7 +422,8 @@ html:not(.js) .nav__btn::after { display: none; }
 .modal__t { margin: 8px 0 0; font-size: clamp(24px, 3vw, 30px); letter-spacing: -0.01em; padding-right: 44px; }
 .modal__sub { margin: 10px 0 26px; font-size: 15px; line-height: 1.6; color: var(--muted); }
 .modal [data-modal-sobre]:empty { display: none; }
-.modal .form__ok { text-align: left; }
+.modal .form__ok { padding: 26px 10px 10px; text-align: center; }
+.modal .form__ok .btn { margin-top: 26px; }
 body.modal-abierto { overflow: hidden; }
 @media (max-width: 600px) {
   .modal { padding: 0; }
