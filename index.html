@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WITEDUCA | Adopción de Copilot y formación Microsoft para empresas en Chile</title>
-<meta name="description" content="Unidad de formación y adopción tecnológica de W-IT, Microsoft Solutions Partner. Adopción Garantizada de Copilot, Dynamics 365 y Power Platform, gobernanza de IA y Ley 21.719, y cursos in-company. Medimos el cambio con datos de uso real.">
+<meta name="description" content="Unidad de formación y adopción tecnológica de W-IT, Microsoft Solutions Partner. Adopción Garantizada de Copilot, Dynamics 365 y Power Platform, gobernanza de IA y Ley 21.719, cursos in-company y formación en Claude de Anthropic con preparación para sus certificaciones. Medimos el cambio con datos de uso real.">
 <link rel="canonical" href="https://witeduca.cl/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WITEDUCA">
@@ -48,11 +48,19 @@
   <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span><span></span></button>
   <ul class="nav__links" id="menu">
     <li><a href="/" aria-current="page">Inicio</a></li>
-    <li><a href="/oferta/">Oferta</a></li>
-    <li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li>
-    <li><a href="/cursos-abiertos/">Cursos abiertos</a></li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-programas">Programas</button>
+      <div class="nav__panel" id="nav-programas" hidden><p class="nav__panel-t">Para tu organización</p><ul><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/oferta/#nivelacion">Nivelación tecnológica</a></li></ul></div>
+    </li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-cursos">Cursos</button>
+      <div class="nav__panel" id="nav-cursos" hidden><p class="nav__panel-t">Empresa y personas</p><ul><li><a href="/oferta/#cursos">Formación in-company</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/claude/">Claude y certificaciones</a></li><li><a href="/recursos/">Recursos oficiales</a></li></ul></div>
+    </li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-consultoria">Consultoría</button>
+      <div class="nav__panel" id="nav-consultoria" hidden><p class="nav__panel-t">Por hora o por proyecto</p><ul><li><a href="/consultores/">Horas con un consultor</a></li><li><a href="/oferta/#asesorias">Asesorías en IA y gobernanza</a></li><li><a href="/oferta/#agentes">Agentes autónomos</a></li></ul></div>
+    </li>
     <li><a href="/nosotros/">Nosotros</a></li>
-    <li><a href="/recursos/">Recursos</a></li>
     <li><a class="nav__cta" href="/contacto/">Conversemos</a></li>
   </ul>
 </header>
@@ -95,8 +103,8 @@
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee__track">
-    <span>Copilot <i>·</i> Power Platform <i>·</i> Agentes IA <i>·</i> Dynamics 365 <i>·</i> Gobernanza de IA <i>·</i> Microsoft 365 <i>·</i></span>
-    <span>Copilot <i>·</i> Power Platform <i>·</i> Agentes IA <i>·</i> Dynamics 365 <i>·</i> Gobernanza de IA <i>·</i> Microsoft 365 <i>·</i></span>
+    <span>Copilot <i>·</i> Power Platform <i>·</i> Agentes IA <i>·</i> Dynamics 365 <i>·</i> Claude de Anthropic <i>·</i> Gobernanza de IA <i>·</i> Microsoft 365 <i>·</i> MCP <i>·</i></span>
+    <span>Copilot <i>·</i> Power Platform <i>·</i> Agentes IA <i>·</i> Dynamics 365 <i>·</i> Claude de Anthropic <i>·</i> Gobernanza de IA <i>·</i> Microsoft 365 <i>·</i> MCP <i>·</i></span>
   </div>
 </div>
 
@@ -108,6 +116,17 @@
       <p>La misma metodología que usamos en grandes organizaciones, en cohortes de una jornada, en línea y en vivo.</p>
     </div>
     <a class="btn btn--outline btn--sm" href="/cursos-abiertos/">Ver cursos abiertos</a>
+  </div>
+</aside>
+
+<aside class="band" aria-label="Horas de consultoría con un relator" style="background: var(--blue-soft)">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow eyebrow--green">Consultores</p>
+      <h2>O <em>agenda una hora</em> con el consultor que tú elijas.</h2>
+      <p>Como una hora médica: eliges al relator, las horas que necesitas y el día. Paquetes de Copilot y de Claude en tres niveles.</p>
+    </div>
+    <a class="btn btn--outline btn--sm" href="/consultores/">Ver los relatores</a>
   </div>
 </aside>
 
@@ -177,6 +196,32 @@
     <div class="actions reveal mt-4">
       <a class="btn btn--green" href="/oferta/#cursos">Formación en Copilot</a>
       <a class="btn btn--ghost" href="/contacto/">¿Cuál Copilot necesito?</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ecosistemas">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="rule"></div>
+      <h2 class="h-section mt-2" style="max-width: 30ch">Dos ecosistemas, la misma metodología.</h2>
+      <p class="text mt-2">Microsoft es donde trabajamos todos los días y donde somos partner. A eso sumamos una línea propia de formación en Claude de Anthropic, incluida la preparación para sus certificaciones. Elige por dónde quieres partir.</p>
+    </div>
+    <div class="grid grid--2 mt-5">
+      <a class="card card--white reveal" href="/oferta/#cursos">
+        <p class="eyebrow eyebrow--green">Ecosistema Microsoft</p>
+        <img class="brandmark" src="/assets/copilot.webp" alt="" width="438" height="438" style="height: 34px; margin-top: 16px">
+        <h3 class="h-card" style="margin-top: 10px">Copilot, Power Platform y agentes</h3>
+        <p>Formación in-company, nivelación por dotación y asesorías de IA sobre el entorno Microsoft que tu organización ya usa. Cinco cursos y cuatro líneas de trabajo.</p>
+        <div class="card__more">Ver la oferta Microsoft →</div>
+      </a>
+      <a class="card card--white reveal" href="/claude/">
+        <p class="eyebrow eyebrow--green">Ecosistema Anthropic</p>
+        <img class="brandmark" src="/assets/claude-mark.webp" alt="" width="96" height="96" style="height: 34px; margin-top: 16px">
+        <h3 class="h-card" style="margin-top: 10px">Claude y sus certificaciones</h3>
+        <p>Un curso para usar Claude bien en el trabajo y cuatro rutas de preparación para las certificaciones Associate, Developer y Architect de Anthropic. En español y en vivo.</p>
+        <div class="card__more">Ver la línea Claude →</div>
+      </a>
     </div>
   </div>
 </section>
@@ -316,11 +361,13 @@
         <p class="footer__claim">We Make It Simple</p>
       </div>
       <nav class="footer__links" aria-label="Enlaces del pie de página">
-        <ul><li><a href="/oferta/">Oferta</a></li><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/nosotros/">Nosotros</a></li></ul>
-        <ul><li><a href="/recursos/">Recursos</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></li></ul>
+        <div><p class="footer__col-t">Programas</p><ul><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/oferta/#nivelacion">Nivelación tecnológica</a></li></ul></div>
+        <div><p class="footer__col-t">Cursos</p><ul><li><a href="/oferta/#cursos">Formación in-company</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/claude/">Claude y certificaciones</a></li><li><a href="/recursos/">Recursos oficiales</a></li></ul></div>
+        <div><p class="footer__col-t">Consultoría</p><ul><li><a href="/consultores/">Horas con un consultor</a></li><li><a href="/oferta/#asesorias">Asesorías en IA</a></li><li><a href="/oferta/#agentes">Agentes autónomos</a></li></ul></div>
+        <div><p class="footer__col-t">WITEDUCA</p><ul><li><a href="/oferta/">Toda la oferta</a></li><li><a href="/nosotros/">Quiénes somos</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></li></ul></div>
       </nav>
     </div>
-    <div class="footer__legal">© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile</div>
+    <div class="footer__legal">© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile · Claude y Anthropic son marcas de Anthropic PBC. WITEDUCA no está afiliada a Anthropic; las certificaciones las emite Anthropic.</div>
   </div>
 </footer>
 

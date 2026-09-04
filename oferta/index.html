@@ -33,11 +33,19 @@
   <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span><span></span></button>
   <ul class="nav__links" id="menu">
     <li><a href="/">Inicio</a></li>
-    <li><a href="/oferta/" aria-current="page">Oferta</a></li>
-    <li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li>
-    <li><a href="/cursos-abiertos/">Cursos abiertos</a></li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-programas">Programas</button>
+      <div class="nav__panel" id="nav-programas" hidden><p class="nav__panel-t">Para tu organización</p><ul><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/oferta/#nivelacion">Nivelación tecnológica</a></li></ul></div>
+    </li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-cursos">Cursos</button>
+      <div class="nav__panel" id="nav-cursos" hidden><p class="nav__panel-t">Empresa y personas</p><ul><li><a href="/oferta/#cursos">Formación in-company</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/claude/">Claude y certificaciones</a></li><li><a href="/recursos/">Recursos oficiales</a></li></ul></div>
+    </li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-consultoria">Consultoría</button>
+      <div class="nav__panel" id="nav-consultoria" hidden><p class="nav__panel-t">Por hora o por proyecto</p><ul><li><a href="/consultores/">Horas con un consultor</a></li><li><a href="/oferta/#asesorias">Asesorías en IA y gobernanza</a></li><li><a href="/oferta/#agentes">Agentes autónomos</a></li></ul></div>
+    </li>
     <li><a href="/nosotros/">Nosotros</a></li>
-    <li><a href="/recursos/">Recursos</a></li>
     <li><a class="nav__cta" href="/contacto/">Conversemos</a></li>
   </ul>
 </header>
@@ -47,10 +55,21 @@
 <header class="hero hero--plain" style="background: none">
   <div class="wrap fade-up">
     <div class="rule"></div>
-    <h1 class="h-page mt-2">Nuestra oferta</h1>
+    <h1 class="h-page mt-2">Nuestra oferta Microsoft</h1>
     <p class="lead mt-2" style="font-size: 18px; max-width: 60ch">Cuatro líneas de trabajo, un mismo principio: habilitar a tu gente sobre el entorno que realmente usa, con resultados medidos.</p>
   </div>
 </header>
+
+<aside class="band" aria-label="Línea de formación en Claude de Anthropic">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow eyebrow--green">Ecosistema Anthropic</p>
+      <h2>Esta página es la línea <em>Microsoft</em>. La formación en <em>Claude de Anthropic</em> tiene su propia sección.</h2>
+      <p>Un curso para usar Claude en el trabajo y cuatro rutas de preparación para sus certificaciones Associate, Developer y Architect.</p>
+    </div>
+    <a class="btn btn--outline btn--sm" href="/claude/">Ver la línea Claude</a>
+  </div>
+</aside>
 
 <section class="section" id="cursos" style="padding-top: 40px">
   <div class="wrap">
@@ -60,6 +79,7 @@
     </div>
     <p class="text reveal mt-2" style="font-size: 16px">Grupos cerrados de tu organización, contenido adaptado a tu realidad. Los ejercicios se hacen sobre tus documentos y procesos, en ambientes controlados.</p>
     <p class="text-sm reveal mt-1" style="font-size: 15px">¿Eres una persona, un ejecutivo o un equipo pequeño? Dos de estos cursos también se dictan en formato abierto de una jornada. <a href="/cursos-abiertos/" style="font-weight: 600">Ver cursos abiertos →</a></p>
+    <p class="text-sm reveal mt-1" style="font-size: 15px">¿Necesitas menos que un curso completo? Puedes comprar horas sueltas de un consultor y agendarlas tú. <a href="/consultores/" style="font-weight: 600">Ver relatores y paquetes de horas →</a></p>
     <div class="grid grid--auto mt-4" style="--min: 330px; margin-top: 44px">
       <div class="card card--tight reveal">
         <div class="card__head"><h3>Piso Digital</h3><span class="card__dur">8–16 h</span></div>
@@ -257,11 +277,13 @@
         <p class="footer__claim">We Make It Simple</p>
       </div>
       <nav class="footer__links" aria-label="Enlaces del pie de página">
-        <ul><li><a href="/oferta/">Oferta</a></li><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/nosotros/">Nosotros</a></li></ul>
-        <ul><li><a href="/recursos/">Recursos</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></li></ul>
+        <div><p class="footer__col-t">Programas</p><ul><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/oferta/#nivelacion">Nivelación tecnológica</a></li></ul></div>
+        <div><p class="footer__col-t">Cursos</p><ul><li><a href="/oferta/#cursos">Formación in-company</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/claude/">Claude y certificaciones</a></li><li><a href="/recursos/">Recursos oficiales</a></li></ul></div>
+        <div><p class="footer__col-t">Consultoría</p><ul><li><a href="/consultores/">Horas con un consultor</a></li><li><a href="/oferta/#asesorias">Asesorías en IA</a></li><li><a href="/oferta/#agentes">Agentes autónomos</a></li></ul></div>
+        <div><p class="footer__col-t">WITEDUCA</p><ul><li><a href="/oferta/" aria-current="page">Toda la oferta</a></li><li><a href="/nosotros/">Quiénes somos</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></li></ul></div>
       </nav>
     </div>
-    <div class="footer__legal">© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile</div>
+    <div class="footer__legal">© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile · Claude y Anthropic son marcas de Anthropic PBC. WITEDUCA no está afiliada a Anthropic; las certificaciones las emite Anthropic.</div>
   </div>
 </footer>
 
