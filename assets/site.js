@@ -15,9 +15,50 @@
       var open = nav.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+      if (!open) {
+        $$(".nav__group .nav__btn").forEach(function (b) { b.setAttribute("aria-expanded", "false"); });
+        $$(".nav__group .nav__panel").forEach(function (pa) { pa.hidden = true; });
+      }
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && nav.classList.contains("is-open")) toggle.click();
+      // Con un desplegable abierto, Escape cierra solo ese: lo hace el bloque de
+      // más abajo, que corre después de este listener.
+      if (e.key === "Escape" && nav.classList.contains("is-open") && !$(".nav__btn[aria-expanded='true']")) toggle.click();
+    });
+  }
+
+  /* ---- Menús desplegables de la nav ---- */
+  /* Se abren con clic, no con hover: el hover deja los menús inalcanzables en
+     táctil y obliga al doble toque. Con clic funciona igual en mouse, teclado
+     y dedo. */
+  var grupos = $$(".nav__group");
+  var btnAbierto = function () { return $(".nav__btn[aria-expanded='true']"); };
+  if (grupos.length) {
+    var cerrarGrupos = function (excepto) {
+      grupos.forEach(function (g) {
+        if (g === excepto) return;
+        var b = $(".nav__btn", g), pa = $(".nav__panel", g);
+        if (b) b.setAttribute("aria-expanded", "false");
+        if (pa) pa.hidden = true;
+      });
+    };
+    grupos.forEach(function (g) {
+      var b = $(".nav__btn", g), pa = $(".nav__panel", g);
+      if (!b || !pa) return;
+      b.addEventListener("click", function () {
+        var abierto = b.getAttribute("aria-expanded") === "true";
+        cerrarGrupos(g);
+        b.setAttribute("aria-expanded", String(!abierto));
+        pa.hidden = abierto;
+      });
+    });
+    document.addEventListener("click", function (e) {
+      if (e.target.closest && !e.target.closest(".nav__group")) cerrarGrupos(null);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      var b = btnAbierto();
+      if (b) { cerrarGrupos(null); b.focus(); }
     });
   }
 
@@ -94,6 +135,29 @@
     if (next) next.addEventListener("click", function () { track.scrollBy({ left: 360, behavior: "smooth" }); });
   }
 
+  /* ---- Filtro por especialidad en una rejilla (Consultores) ---- */
+  $$("[data-filter]").forEach(function (grupo) {
+    var caja = $("[data-filter-items]", grupo);
+    if (!caja) return;
+    var chips = $$(".chip[data-cat]", grupo);
+    var items = $$("[data-cat]", caja);
+    var cuenta = $(".filter__count", grupo);
+    chips.forEach(function (c) {
+      c.addEventListener("click", function () {
+        var cat = c.getAttribute("data-cat");
+        chips.forEach(function (x) { x.setAttribute("aria-pressed", String(x === c)); });
+        var n = 0;
+        items.forEach(function (it) {
+          var cats = (it.getAttribute("data-cat") || "").split(/\s+/);
+          var ver = cat === "todos" || cats.indexOf(cat) !== -1;
+          it.hidden = !ver;
+          if (ver) n++;
+        });
+        if (cuenta) cuenta.textContent = n === 1 ? "1 relator" : n + " relatores";
+      });
+    });
+  });
+
   /* ---- Formulario de contacto → /api/contacto ---- */
   var form = $("#form-contacto");
   if (form) {
@@ -119,6 +183,14 @@
     var selInteres = $("select[name='interes']", form);
     if (interesParam && selInteres) {
       $$("option", selInteres).forEach(function (o) { if (o.value === interesParam) selInteres.value = interesParam; });
+    }
+
+    // Detalle precargado (?detalle=...): lo usa /consultores/ para mandar el
+    // relator y el paquete elegidos. Se respeta lo que la persona ya escribio.
+    var detalleParam = params.get("detalle");
+    var taMensaje = $("textarea[name='mensaje']", form);
+    if (detalleParam && taMensaje && !taMensaje.value) {
+      taMensaje.value = detalleParam.slice(0, 2000);
     }
 
     form.addEventListener("submit", function (e) {

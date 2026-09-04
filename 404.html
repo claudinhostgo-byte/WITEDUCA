@@ -16,15 +16,24 @@
   <a class="nav__brand" href="/">
     <img class="nav__logo" src="/assets/logo-color-mark.png" alt="W-IT" width="746" height="557">
     <span class="nav__tag">Adopción y<br>Formación</span>
+    <img class="nav__partner" src="/assets/ms-solutions-partner.png" alt="Microsoft Solutions Partner" width="925" height="420">
   </a>
   <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span><span></span></button>
   <ul class="nav__links" id="menu">
     <li><a href="/">Inicio</a></li>
-    <li><a href="/oferta/">Oferta</a></li>
-    <li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li>
-    <li><a href="/cursos-abiertos/">Cursos abiertos</a></li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-programas">Programas</button>
+      <div class="nav__panel" id="nav-programas" hidden><p class="nav__panel-t">Para tu organización</p><ul><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/oferta/#nivelacion">Nivelación tecnológica</a></li></ul></div>
+    </li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-cursos">Cursos</button>
+      <div class="nav__panel" id="nav-cursos" hidden><p class="nav__panel-t">Empresa y personas</p><ul><li><a href="/oferta/#cursos">Formación in-company</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/claude/">Claude y certificaciones</a></li><li><a href="/recursos/">Recursos oficiales</a></li></ul></div>
+    </li>
+    <li class="nav__group">
+      <button class="nav__btn" type="button" aria-expanded="false" aria-controls="nav-consultoria">Consultoría</button>
+      <div class="nav__panel" id="nav-consultoria" hidden><p class="nav__panel-t">Por hora o por proyecto</p><ul><li><a href="/consultores/">Horas con un consultor</a></li><li><a href="/oferta/#asesorias">Asesorías en IA y gobernanza</a></li><li><a href="/oferta/#agentes">Agentes autónomos</a></li></ul></div>
+    </li>
     <li><a href="/nosotros/">Nosotros</a></li>
-    <li><a href="/recursos/">Recursos</a></li>
     <li><a class="nav__cta" href="/contacto/">Conversemos</a></li>
   </ul>
 </header>

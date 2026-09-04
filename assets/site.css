@@ -105,7 +105,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 
 /* ---------- Navegación ---------- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px var(--pad); background: rgba(255,255,255,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line-soft); }
-.nav__brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.nav__brand { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
 .nav__logo { height: 52px; width: auto; }
 .nav__tag { padding-left: 16px; border-left: 1px solid var(--line); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
 .nav__partner { height: 76px; width: auto; margin-left: 12px; }
@@ -116,13 +116,35 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .nav__cta, .nav__links a.nav__cta { display: inline-block; padding: 9px 22px; background: var(--navy); color: #FFFFFF; border-radius: 8px; font-weight: 600; transition: background 200ms; }
 .nav__cta:hover, .nav__links a.nav__cta:hover { background: var(--green-dark); color: #FFFFFF; }
 .nav__links a.nav__cta[aria-current="page"] { background: var(--green-dark); color: #FFFFFF; }
+.nav__group { position: relative; }
+.nav__btn { display: inline-flex; align-items: center; gap: 7px; padding: 0; border: 0; background: none; font: inherit; font-size: inherit; color: var(--navy); cursor: pointer; }
+.nav__btn::after { content: ""; width: 6px; height: 6px; margin-top: -3px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 200ms var(--ease); }
+.nav__btn:hover { color: var(--green-dark); }
+.nav__btn[aria-expanded="true"] { color: var(--green-dark); }
+.nav__btn[aria-expanded="true"]::after { transform: rotate(-135deg); margin-top: 3px; }
+.nav__group--current > .nav__btn { color: var(--green-dark); font-weight: 600; }
+.nav__panel { position: absolute; top: calc(100% + 18px); left: -14px; z-index: 10; min-width: 262px; padding: 10px; background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-md); }
+.nav__panel-t { margin: 4px 14px 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line-soft); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-2); }
+.nav__panel ul { margin: 0; padding: 0; list-style: none; }
+.nav__panel a { display: block; padding: 11px 14px; border-radius: 8px; color: var(--navy); white-space: nowrap; }
+.nav__panel a:hover { background: var(--bg-soft); color: var(--green-dark); }
+.nav__panel a[aria-current="page"] { background: var(--green-soft); color: var(--green-dark); font-weight: 600; }
+/* Sin JavaScript los paneles quedarian inalcanzables y con ellos 6 destinos del
+   sitio. Misma convencion que .reveal: si no hay clase .js, todo se muestra.
+   Queda como una tira tipo mapa del sitio, no bonita pero completa y navegable. */
+html:not(.js) .nav__links { flex-wrap: wrap; align-items: flex-start; }
+html:not(.js) .nav__panel[hidden] { display: block; position: static; min-width: 0; padding: 6px 0 0; background: none; border: 0; box-shadow: none; }
+html:not(.js) .nav__panel a { padding: 5px 0; white-space: nowrap; }
+html:not(.js) .nav__btn { cursor: default; }
+html:not(.js) .nav__btn::after { display: none; }
+
 .nav__toggle { display: none; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: #FFFFFF; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
 .nav__toggle span { display: block; width: 20px; height: 2px; background: var(--navy); border-radius: 2px; transition: transform 200ms, opacity 200ms; }
 .nav.is-open .nav__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
 .nav.is-open .nav__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-@media (max-width: 1400px) { .nav__partner { display: none; } }
-@media (max-width: 1200px) { .nav__links { gap: 22px; } }
+@media (max-width: 1150px) { .nav__partner { display: none; } }
+@media (max-width: 1200px) { .nav__links { gap: 18px; font-size: 14px; } }
 @media (max-width: 900px) {
   .nav__toggle { display: flex; }
   .nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 4px var(--pad) 20px; background: #FFFFFF; border-bottom: 1px solid var(--line-soft); box-shadow: 0 16px 32px rgba(0,0,0,.10); }
@@ -130,6 +152,13 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
   .nav__links li a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line-soft); font-size: 16px; }
   .nav__links li:last-child a { border-bottom: 0; }
   .nav__links a.nav__cta { margin-top: 14px; text-align: center; padding: 13px 22px; }
+  .nav__group { position: static; }
+  .nav__btn { width: 100%; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line-soft); font-size: 16px; }
+  .nav__group--current > .nav__btn { font-weight: 600; }
+  .nav__links .nav__panel { position: static; top: auto; left: auto; min-width: 0; margin: 0; padding: 4px 0 10px 16px; background: none; border: 0; border-radius: 0; box-shadow: none; }
+  .nav__links .nav__panel-t { margin: 8px 0 4px; padding-bottom: 8px; }
+  .nav__links .nav__panel a { padding: 11px 0; border-bottom: 0; font-size: 15px; white-space: normal; }
+  .nav__links .nav__panel a[aria-current="page"] { background: none; }
 }
 @media (max-width: 600px) { .nav__logo { height: 42px; } .nav__tag { display: none; } }
 
@@ -202,7 +231,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .card--flat:hover { transform: none; box-shadow: none; }
 .card .num { font-size: 14px; font-weight: 600; color: var(--green); letter-spacing: 0.08em; }
 .card h3 { margin-top: 14px; }
-.card p { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
+.card p:not(.eyebrow) { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
 .card .card__more { margin-top: 20px; font-size: 14px; font-weight: 600; color: var(--green); }
 .card--tight { padding: 34px 30px; display: flex; flex-direction: column; gap: 12px; }
 .card--tight h3 { margin: 0; font-size: 19px; }
@@ -374,12 +403,13 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .footer__logo { height: 42px; width: auto; }
 .footer__tag { margin: 14px 0 0; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
 .footer__claim { margin: 8px 0 0; font-size: 14px; }
-.footer__links { display: flex; gap: 48px; font-size: 14px; }
+.footer__links { display: flex; gap: 40px 48px; font-size: 14px; flex-wrap: wrap; }
+.footer__col-t { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.42); }
 .footer__links ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .footer__links a { color: rgba(255,255,255,0.75); }
 .footer__links a:hover { color: var(--green); }
 .footer__legal { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 13px; }
-@media (max-width: 600px) { .footer__links { gap: 32px; } }
+@media (max-width: 600px) { .footer__links { gap: 28px 32px; } }
 
 /* ---------- 404 ---------- */
 .notfound { min-height: 100vh; display: grid; place-items: center; padding: 140px var(--pad) 80px; text-align: center; }
@@ -388,7 +418,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
 .js .reveal.is-in { opacity: 1; transform: translateY(0); }
 .fade-up { animation: wit-fade-up 700ms var(--ease) both; }
-.fade-up--1 { animation-delay: 100ms; } .fade-up--2 { animation-delay: 200ms; } .fade-up--3 { animation-delay: 300ms; }
+.fade-up--1 { animation-delay: 100ms; } .fade-up--2 { animation-delay: 200ms; } .fade-up--3 { animation-delay: 300ms; } .fade-up--4 { animation-delay: 400ms; }
 @keyframes wit-float-a { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,-30px) scale(1.08); } }
 @keyframes wit-float-b { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,25px) scale(0.94); } }
 @keyframes wit-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -398,6 +428,53 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
   .js .reveal { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
 }
+
+/* ---------- Certificaciones (línea Claude de Anthropic) ---------- */
+/* Logos de producto de terceros (Claude, Anthropic, Copilot). El alto se fija
+   en cada uso; el ancho sale de los atributos width/height del <img>. */
+.brandmark { display: block; width: auto; }
+
+.lvl { display: inline-block; padding: 5px 13px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; background: var(--blue-soft); color: var(--navy); white-space: nowrap; }
+.lvl--pro { background: var(--green-soft); color: var(--green-dark); }
+.exam { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+.exam__price { font-size: 20px; font-weight: 600; color: var(--navy); }
+.exam__note { margin: 0 !important; font-size: 13px !important; color: var(--muted-2) !important; }
+
+.tbl { margin-top: 44px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #FFFFFF; }
+.tbl table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: 15px; }
+.tbl caption { padding: 0 0 14px; font-size: 14px; color: var(--muted); text-align: left; }
+.tbl th, .tbl td { padding: 18px 20px; text-align: left; vertical-align: top; line-height: 1.55; border-bottom: 1px solid var(--line-soft); }
+.tbl thead th { background: var(--bg-soft); font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.tbl tbody th { font-weight: 600; color: var(--navy); }
+.tbl tbody td { color: var(--muted); }
+.tbl tbody tr:last-child th, .tbl tbody tr:last-child td { border-bottom: 0; }
+
+/* ---------- Consultores / relatores (agenda de horas) ---------- */
+/* Variante clara de los chips: los originales estan pintados para fondo navy. */
+.chip--light { border-color: var(--line); background: #FFFFFF; color: var(--navy); }
+.chip--light:hover { border-color: var(--green); }
+.chip--light[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #FFFFFF; }
+
+/* .card fija display:block y le gana al display:none del atributo hidden, igual
+   que pasa con .agent en el carrusel de Oferta. */
+.card[hidden] { display: none; }
+
+.who__top { display: flex; align-items: center; gap: 14px; }
+.who__av { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: var(--blue-soft); color: var(--navy); font-size: 15px; font-weight: 600; letter-spacing: 0.03em; }
+.who__name { margin: 0; font-size: 17px; font-weight: 600; color: var(--navy); }
+.who__role { margin: 4px 0 0 !important; font-size: 13px !important; line-height: 1.45; color: var(--muted) !important; }
+.who__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+
+.rate { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+.rate__val { font-size: 22px; font-weight: 600; color: var(--navy); letter-spacing: -0.01em; }
+.rate__unit { font-size: 14px; color: var(--muted); }
+.rate__pend { margin: 8px 0 0 !important; font-size: 12px !important; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted-2) !important; }
+
+.card--stack { display: flex; flex-direction: column; }
+.card--stack .rate, .card--stack .exam { margin-top: auto; }
+
+.filter { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.filter__count { font-size: 14px; color: var(--muted); }
 
 /* ---------- Franja "Cursos abiertos" (segundo camino en la home) ---------- */
 .band { padding: 30px var(--pad); background: var(--green-soft); border-bottom: 1px solid var(--line-soft); }

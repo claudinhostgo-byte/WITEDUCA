@@ -14,6 +14,8 @@ const INTERESES = [
   'Nivelación tecnológica',
   'Asesoría en IA / Gobernanza',
   'Curso abierto',
+  'Formación en Claude',
+  'Agendar hora con un consultor',
   'Otro',
 ];
 
