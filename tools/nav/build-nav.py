@@ -42,8 +42,10 @@ NAV = [
         ('Claude y certificaciones', '/claude/'),
         ('Recursos oficiales', '/recursos/'),
     ]),
-    ('Consultoría', 'nav-consultoria', 'Por hora o por proyecto', [
-        ('Horas con un consultor', '/consultores/'),
+    # /consultores/ esta oculto a proposito: ni relatores ni tarifas estan
+    # definidos. Al publicarlo, devolver aqui ('Horas con un consultor',
+    # '/consultores/') y quitar el noindex de la pagina. Ver el README.
+    ('Consultoría', 'nav-consultoria', 'Asesoría y automatización', [
         ('Asesorías en IA y gobernanza', '/oferta/#asesorias'),
         ('Agentes autónomos', '/oferta/#agentes'),
     ]),
@@ -64,7 +66,6 @@ FOOTER_COLS = [
         ('Recursos oficiales', '/recursos/'),
     ]),
     ('Consultoría', [
-        ('Horas con un consultor', '/consultores/'),
         ('Asesorías en IA', '/oferta/#asesorias'),
         ('Agentes autónomos', '/oferta/#agentes'),
     ]),
