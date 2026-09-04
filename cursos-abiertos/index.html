@@ -82,7 +82,7 @@
     <h1 class="h-display fade-up fade-up--1 mt-3" style="max-width: 24ch">Aprende Copilot e IA en un día, <span class="accent">con quienes la implementan en grandes empresas.</span></h1>
     <p class="lead fade-up fade-up--2 mt-3" style="max-width: 58ch">Cohortes abiertas, en línea y en vivo, con ejercicios sobre tu propio trabajo. La misma metodología que usamos en organizaciones grandes, en un formato corto para quien necesita resultados esta semana, no un diplomado.</p>
     <div class="actions fade-up fade-up--3 mt-4">
-      <a class="btn btn--green" href="/contacto/?interes=Curso%20abierto">Quiero la próxima fecha</a>
+      <a class="btn btn--green" href="/contacto/?interes=Todav%C3%ADa%20no%20lo%20s%C3%A9%2C%20quiero%20orientaci%C3%B3n" data-form="Todavía no lo sé, quiero orientación">Quiero la próxima fecha</a>
       <a class="btn btn--outline" href="#cursos">Ver los cursos</a>
     </div>
   </div>
@@ -106,7 +106,7 @@
           <div><span>✓</span><span>Una rutina semanal de trabajo con Copilot que puedes sostener.</span></div>
           <div><span>✓</span><span>Reglas claras sobre datos y confidencialidad al usar IA en el trabajo.</span></div>
         </div>
-        <a class="btn btn--navy btn--sm mt-3" href="/contacto/?interes=Curso%20abierto">Avísame de la próxima fecha</a>
+        <a class="btn btn--navy btn--sm mt-3" href="/contacto/?interes=Curso%20abierto%3A%20Copilot%20en%20el%20trabajo%20diario" data-form="Curso abierto: Copilot en el trabajo diario">Avísame de la próxima fecha</a>
       </article>
       <article class="card card--white card--flat reveal" id="lideres">
         <div class="card__head"><h3 class="h-card" style="margin-top: 0">IA aplicada para líderes</h3><span class="card__dur">1 jornada</span></div>
@@ -118,7 +118,7 @@
           <div><span>✓</span><span>Una lista de decisiones que debes tomar antes de invertir.</span></div>
           <div><span>✓</span><span>Los puntos mínimos de una política de uso de IA para tu equipo.</span></div>
         </div>
-        <a class="btn btn--navy btn--sm mt-3" href="/contacto/?interes=Curso%20abierto">Avísame de la próxima fecha</a>
+        <a class="btn btn--navy btn--sm mt-3" href="/contacto/?interes=Curso%20abierto%3A%20IA%20aplicada%20para%20l%C3%ADderes" data-form="Curso abierto: IA aplicada para líderes">Avísame de la próxima fecha</a>
       </article>
     </div>
   </div>
@@ -182,7 +182,7 @@
     <h2 style="font-size: clamp(32px, 4vw, 52px); letter-spacing: -0.01em">Quiero la próxima fecha.</h2>
     <p class="lead mt-2" style="max-width: none; font-size: 18px">Déjanos tu correo y el curso que te interesa. Te avisamos antes de publicarlo.</p>
     <div class="actions mt-4" style="justify-content: center">
-      <a class="btn btn--green" href="/contacto/?interes=Curso%20abierto">Dejar mi correo</a>
+      <a class="btn btn--green" href="/contacto/?interes=Todav%C3%ADa%20no%20lo%20s%C3%A9%2C%20quiero%20orientaci%C3%B3n" data-form="Todavía no lo sé, quiero orientación">Dejar mi correo</a>
       <a class="btn btn--ghost" href="/oferta/">¿Buscas un programa para tu organización?</a>
     </div>
   </div>
@@ -208,6 +208,66 @@
     <div class="footer__legal">© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile · Claude y Anthropic son marcas de Anthropic PBC. WITEDUCA no está afiliada a Anthropic; las certificaciones las emite Anthropic.</div>
   </div>
 </footer>
+
+<!-- modal:inicio -->
+<div class="modal" id="modal-form" hidden>
+  <div class="modal__fondo" data-modal-cerrar></div>
+  <div class="modal__caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <button class="modal__x" type="button" data-modal-cerrar aria-label="Cerrar">&times;</button>
+    <p class="eyebrow eyebrow--green" data-modal-sobre></p>
+    <h2 class="modal__t" id="modal-titulo">Cuéntanos qué necesitas</h2>
+    <p class="modal__sub">Te respondemos al correo que dejes. Sin compromiso.</p>
+    <form class="form" id="form-modal" method="post" action="/api/contacto" novalidate>
+        <div class="form__row">
+          <label class="field">Nombre
+            <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name" required maxlength="120">
+          </label>
+          <label class="field">Empresa u organización
+            <input type="text" name="empresa" placeholder="Tu organización" autocomplete="organization" maxlength="100">
+          </label>
+        </div>
+        <div class="form__row">
+          <label class="field">Cargo <small>(opcional)</small>
+            <input type="text" name="cargo" placeholder="Gerente de TI, jefa de personas…" autocomplete="organization-title" maxlength="100">
+          </label>
+          <label class="field">Tamaño de la organización
+            <select name="tamano" required>
+              <option value="" selected disabled>Selecciona</option>
+              <option>Solo yo</option>
+              <option>2 a 50 personas</option>
+              <option>51 a 500 personas</option>
+              <option>Más de 500 personas</option>
+              <option>Sector público</option>
+            </select>
+          </label>
+        </div>
+        <div class="form__row">
+          <label class="field">Correo
+            <input type="email" name="correo" placeholder="nombre@empresa.cl" autocomplete="email" required maxlength="100">
+          </label>
+          <label class="field">Teléfono <small>(opcional)</small>
+            <input type="tel" name="telefono" placeholder="+56 9 …" autocomplete="tel" maxlength="50">
+          </label>
+        </div>
+        <label class="field">¿Qué te interesa?
+          <select name="interes" required><optgroup label="Programas"><option>Adopción Garantizada</option><option>Nivelación tecnológica</option></optgroup><optgroup label="Cursos in-company · Microsoft"><option>Piso Digital</option><option>Copilot en el trabajo diario</option><option>Power Platform para el negocio</option><option>IA aplicada para líderes</option><option>Constructor de agentes</option></optgroup><optgroup label="Cursos abiertos"><option>Curso abierto: Copilot en el trabajo diario</option><option>Curso abierto: IA aplicada para líderes</option></optgroup><optgroup label="Claude de Anthropic"><option>Claude en el trabajo diario</option><option>Certificación Claude Associate</option><option>Certificación Claude Developer</option><option>Certificación Claude Architect – Foundations</option><option>Certificación Claude Architect – Professional</option></optgroup><optgroup label="Asesorías en IA"><option>Diagnóstico de Madurez IA</option><option>Política y Gobernanza de IA</option><option>Acompañamiento en IA</option></optgroup><option>Todavía no lo sé, quiero orientación</option><option>Agendar hora con un consultor</option><option>Otro</option></select>
+        </label>
+        <label class="field">Mensaje <small>(opcional)</small>
+          <textarea name="mensaje" rows="3" placeholder="Cuéntanos brevemente tu situación" maxlength="2000"></textarea>
+        </label>
+        <input class="hp" type="text" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form__error" role="alert" hidden></div>
+        <button class="form__submit" type="submit">Enviar</button>
+        <p class="form__note">O escríbenos directo a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></p>
+    </form>
+    <div class="form__ok" hidden>
+      <div class="check">&#10003;</div>
+      <h2>Mensaje enviado</h2>
+      <p>Gracias. Te responderemos a la brevedad al correo que indicaste.</p>
+    </div>
+  </div>
+</div>
+<!-- modal:fin -->
 
 </body>
 </html>

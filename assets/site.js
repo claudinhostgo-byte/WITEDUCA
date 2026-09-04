@@ -158,40 +158,26 @@
     });
   });
 
-  /* ---- Formulario de contacto → /api/contacto ---- */
-  var form = $("#form-contacto");
-  if (form) {
+  /* ---- Formularios -> /api/contacto ---------------------------------------
+     Hay exactamente dos en el sitio: el de /contacto/ y el del modal. Los dos
+     usan este mismo manejador; antes estaba escrito solo para #form-contacto. */
+
+  // El backend devuelve codigos, no detalle del CRM; aqui se traducen.
+  var mensajeError = function (codigo, campos) {
+    if (codigo === "campos_invalidos") {
+      var etiquetas = { nombre: "tu nombre", correo: "un correo válido", interes: "el tipo de interés", tamano: "el tamaño de la organización" };
+      var faltan = (campos || []).map(function (c) { return etiquetas[c] || c; });
+      return faltan.length ? "Falta " + faltan.join(" y ") + "." : "Revisa los datos del formulario.";
+    }
+    if (codigo === "demasiados_envios") return "Recibimos varios envíos desde tu conexión. Espera unos minutos o escríbenos a contacto@witeduca.cl.";
+    return "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos directo a contacto@witeduca.cl.";
+  };
+
+  var conectarForm = function (form, okBox) {
+    if (!form) return;
     var errorBox = $(".form__error", form);
     var submit = $(".form__submit", form);
-    var okBox = $(".form__ok");
-
-    // El backend devuelve códigos, no detalle del CRM; aquí se traducen.
-    var mensajeError = function (codigo, campos) {
-      if (codigo === "campos_invalidos") {
-        var etiquetas = { nombre: "tu nombre", correo: "un correo válido", interes: "el tipo de interés", tamano: "el tamaño de la organización" };
-        var faltan = (campos || []).map(function (c) { return etiquetas[c] || c; });
-        return faltan.length ? "Falta " + faltan.join(" y ") + "." : "Revisa los datos del formulario.";
-      }
-      if (codigo === "demasiados_envios") return "Recibimos varios envíos desde tu conexión. Espera unos minutos o escríbenos a contacto@witeduca.cl.";
-      return "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos directo a contacto@witeduca.cl.";
-    };
     var showError = function (msg) { errorBox.textContent = msg; errorBox.hidden = false; };
-
-    // Interés precargado desde la URL (?interes=...) para enlazar desde cada página.
-    var params = new URLSearchParams(location.search);
-    var interesParam = params.get("interes");
-    var selInteres = $("select[name='interes']", form);
-    if (interesParam && selInteres) {
-      $$("option", selInteres).forEach(function (o) { if (o.value === interesParam) selInteres.value = interesParam; });
-    }
-
-    // Detalle precargado (?detalle=...): lo usa /consultores/ para mandar el
-    // relator y el paquete elegidos. Se respeta lo que la persona ya escribio.
-    var detalleParam = params.get("detalle");
-    var taMensaje = $("textarea[name='mensaje']", form);
-    if (detalleParam && taMensaje && !taMensaje.value) {
-      taMensaje.value = detalleParam.slice(0, 2000);
-    }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -222,6 +208,98 @@
         })
         .catch(function () { showError(mensajeError()); })
         .then(function () { submit.disabled = false; submit.textContent = original; });
+    });
+  };
+
+  var ponerInteres = function (form, valor) {
+    var sel = $("select[name='interes']", form);
+    if (!sel || !valor) return false;
+    var hay = $$("option", sel).some(function (o) { return o.value === valor; });
+    if (hay) sel.value = valor;
+    return hay;
+  };
+
+  /* ---- Formulario de /contacto/ ---- */
+  var formContacto = $("#form-contacto");
+  if (formContacto) {
+    conectarForm(formContacto, $(".form-card .form__ok"));
+
+    // Interes y detalle precargados desde la URL, para los enlaces que llegan
+    // aqui sin pasar por el modal (y para cuando no hay JavaScript).
+    var params = new URLSearchParams(location.search);
+    ponerInteres(formContacto, params.get("interes"));
+    var detalleParam = params.get("detalle");
+    var taMensaje = $("textarea[name='mensaje']", formContacto);
+    if (detalleParam && taMensaje && !taMensaje.value) {
+      taMensaje.value = detalleParam.slice(0, 2000);
+    }
+  }
+
+  /* ---- Modal: el segundo formulario --------------------------------------
+     Se abre desde cualquier [data-form="<interes>"]. Esos botones conservan su
+     href a /contacto/?interes=..., asi que sin JavaScript siguen funcionando
+     como enlace normal: aqui solo se intercepta el clic. */
+  var modal = $("#modal-form");
+  var formModal = $("#form-modal");
+  if (modal && formModal) {
+    var okModal = $(".form__ok", modal);
+    var sobre = $("[data-modal-sobre]", modal);
+    var disparador = null;
+    conectarForm(formModal, okModal);
+
+    var foco = function () {
+      return $$("a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])", modal)
+        .filter(function (el) { return el.offsetParent !== null; });
+    };
+
+    var abrir = function (valor, origen) {
+      disparador = origen || null;
+      // Cada apertura parte limpia: el pedido es que vuelva a pedir los datos.
+      formModal.reset();
+      formModal.hidden = false;
+      if (okModal) okModal.hidden = true;
+      var err = $(".form__error", formModal);
+      if (err) err.hidden = true;
+
+      var ok = ponerInteres(formModal, valor);
+      if (sobre) sobre.textContent = ok ? valor : "";
+
+      modal.hidden = false;
+      document.body.classList.add("modal-abierto");
+      var campos = foco();
+      if (campos.length) campos[campos.length > 1 ? 1 : 0].focus();
+    };
+
+    var cerrar = function () {
+      modal.hidden = true;
+      document.body.classList.remove("modal-abierto");
+      if (disparador && disparador.focus) disparador.focus();
+      disparador = null;
+    };
+
+    document.addEventListener("click", function (e) {
+      var boton = e.target.closest && e.target.closest("[data-form]");
+      if (boton) {
+        e.preventDefault();
+        abrir(boton.getAttribute("data-form"), boton);
+        return;
+      }
+      if (e.target.closest && e.target.closest("[data-modal-cerrar]")) {
+        e.preventDefault();
+        cerrar();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (modal.hidden) return;
+      if (e.key === "Escape") { e.preventDefault(); cerrar(); return; }
+      if (e.key !== "Tab") return;
+      // Trampa de foco: mientras el modal esta abierto, Tab no sale de la caja.
+      var campos = foco();
+      if (!campos.length) return;
+      var primero = campos[0], ultimo = campos[campos.length - 1];
+      if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+      else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
     });
   }
 })();
