@@ -186,6 +186,21 @@
       submit.disabled = true;
       var original = submit.textContent;
       submit.textContent = "Enviando…";
+      submit.classList.add("is-enviando");
+
+      // Piso de duracion del estado de carga. Si la API contesta en 150 ms el
+      // aro alcanza a parpadear y se lee como un salto raro, no como que se
+      // envio. Con esto siempre se ve que algo paso.
+      var inicio = Date.now();
+      var MINIMO_VISIBLE = 500;
+      var restaurar = function () {
+        var falta = Math.max(0, MINIMO_VISIBLE - (Date.now() - inicio));
+        setTimeout(function () {
+          submit.disabled = false;
+          submit.classList.remove("is-enviando");
+          submit.textContent = original;
+        }, falta);
+      };
 
       var datos = {};
       new FormData(form).forEach(function (v, k) { datos[k] = v; });
@@ -198,6 +213,10 @@
         body: JSON.stringify(datos)
       })
         .then(function (res) { return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; }); })
+        .then(function (r) {
+          var falta = Math.max(0, MINIMO_VISIBLE - (Date.now() - inicio));
+          return new Promise(function (listo) { setTimeout(listo, falta); }).then(function () { return r; });
+        })
         .then(function (r) {
           if (r.res.ok && r.data.ok) {
             form.hidden = true;
@@ -212,7 +231,7 @@
           }
         })
         .catch(function () { showError(mensajeError()); })
-        .then(function () { submit.disabled = false; submit.textContent = original; });
+        .then(restaurar);
     });
   };
 

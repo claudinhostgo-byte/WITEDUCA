@@ -119,6 +119,20 @@ abierto, retorno del foco al boton que lo abrio y bloqueo del scroll del body.
   abren el modal con el interes **"Todavia no lo se, quiero orientacion"**. Es un
   dato util: dice que la persona quiere que la orienten, no que no le interesa nada.
 
+### Estado de envio del boton
+
+Al enviar, el boton se deshabilita, cambia a "Enviando..." y muestra un aro
+girando (`.form__submit.is-enviando`, con `::before`). Aplica a los dos
+formularios porque vive en la clase compartida, sin tocar el HTML de ninguno.
+
+Hay un **piso de 500 ms** para ese estado. Si la API contesta en 40 ms el aro
+alcanza a parpadear y se lee como un salto raro en la pantalla, no como que se
+envio; el piso garantiza que la persona vea que algo paso. Medido: con una API
+de 40 ms el estado dura 502 ms y el mensaje de exito aparece a los 523 ms.
+
+Con `prefers-reduced-motion` el aro no se muestra: ahi la senal es el texto
+"Enviando...", que cambia igual.
+
 ### El catalogo de intereses es una sola fuente
 
 Los valores tienen que coincidir en tres lugares o **la API rechaza el envio con
