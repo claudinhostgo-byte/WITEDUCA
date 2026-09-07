@@ -109,15 +109,18 @@ h1, h2, h3 { margin: 0; font-weight: 600; color: var(--navy); text-wrap: balance
 
 /* ---------- Navegación ---------- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px var(--pad); background: rgba(255,255,255,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line-soft); }
-.nav__brand { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.nav__brand { display: flex; align-items: center; gap: 14px; flex-shrink: 0; margin-right: auto; }
 .nav__logo { height: 52px; width: auto; }
 .nav__tag { padding-left: 16px; border-left: 1px solid var(--line); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
 .nav__partner { height: 76px; width: auto; margin-left: 12px; }
+.nav__flags { display: inline-flex; align-items: center; gap: 5px; opacity: 0.75; }
+.nav__flags img { width: 16px; height: 11px; border-radius: 2px; display: block; }
 .nav__links { display: flex; align-items: center; gap: 28px; font-size: 15px; margin: 0; padding: 0; list-style: none; white-space: nowrap; }
 .nav__links a { color: var(--navy); }
 .nav__links a:hover { color: var(--green-dark); }
 .nav__links a[aria-current="page"] { color: var(--green-dark); font-weight: 600; }
 .nav__cta, .nav__links a.nav__cta { display: inline-block; padding: 9px 22px; background: var(--navy); color: #FFFFFF; border-radius: 8px; font-weight: 600; transition: background 200ms; }
+.nav__links a.nav__cta { margin-left: 18px; }
 .nav__cta:hover, .nav__links a.nav__cta:hover { background: var(--green-dark); color: #FFFFFF; }
 .nav__links a.nav__cta[aria-current="page"] { background: var(--green-dark); color: #FFFFFF; }
 .nav__group { position: relative; }
@@ -155,7 +158,7 @@ html:not(.js) .nav__btn::after { display: none; }
   .nav.is-open .nav__links { display: flex; }
   .nav__links li a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line-soft); font-size: 16px; }
   .nav__links li:last-child a { border-bottom: 0; }
-  .nav__links a.nav__cta { margin-top: 14px; text-align: center; padding: 13px 22px; }
+  .nav__links a.nav__cta { margin-top: 14px; margin-left: 0; text-align: center; padding: 13px 22px; }
   .nav__group { position: static; }
   .nav__btn { width: 100%; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line-soft); font-size: 16px; }
   .nav__group--current > .nav__btn { font-weight: 600; }
