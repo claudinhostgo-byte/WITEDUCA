@@ -61,6 +61,7 @@ assets/site.js    interacciones sin framework: menú móvil, desplegables, revea
                   carrusel de agentes, envío del formulario
 assets/*.png/webp logos, badges, favicon, imagen Open Graph
 assets/claude-logo.webp       lockup horizontal de Claude (hero de /claude/)
+assets/iconos/     iconos de las tarjetas de /oferta/. Ver "Iconos" mas abajo.
 assets/claude-mark.webp       la estrella de Claude, icono chico junto a títulos
 assets/anthropic-wordmark.webp  wordmark ANTHROPIC (sección de quién certifica)
 tools/logos/       originales de los logos de terceros + prep-logos.py, el script
@@ -460,6 +461,49 @@ contexto y confiabilidad 15% — y se solapa bastante con Developer. El de disen
 integracion y gobernanza es `Architect – Professional`. Si se vuelve a redactar
 esas tarjetas, **leer la guia antes**: un cliente que elige por la descripcion
 puede comprar la preparacion equivocada.
+
+## Iconos
+
+En `assets/iconos/` conviven **dos origenes con reglas distintas**, y no da lo
+mismo cual se toca.
+
+### `ms-*.svg` — oficiales de Microsoft, no se modifican
+
+Vienen de los paquetes oficiales de learn.microsoft.com y estan copiados **byte a
+byte**:
+
+| Archivo | Paquete | Se usa en |
+|---|---|---|
+| `ms-power-platform.svg` | [Power Platform icons](https://learn.microsoft.com/en-us/power-platform/guidance/icons) | Power Platform para el negocio |
+| `ms-copilot-studio.svg` | Power Platform icons | Constructor de agentes |
+| `ms-dynamics-sales.svg` | [Dynamics 365 icons](https://learn.microsoft.com/en-us/dynamics365/get-started/icons) | D365 para ventas y servicio |
+| `ms-dynamics-finance.svg` | Dynamics 365 icons | D365 para finanzas y operaciones |
+
+Sus terminos permiten el uso en **material de formacion**, que es lo que son
+estas paginas, y ademas Microsoft *recomienda* poner el nombre del producto junto
+al icono — que es justo lo que hace el `h3` de cada tarjeta.
+
+Lo que prohiben: **recortar, girar, deformar o cambiar la forma**, y usarlos para
+representar un producto propio. Por eso **no pasan por ningun script de
+procesamiento**, al contrario de los logos de Claude. Escalarlos de forma
+uniforme si esta permitido; cambiarles el `viewBox` o el color, no.
+
+Si algun dia Microsoft actualiza sus paquetes, se vuelven a descargar y se
+reemplazan tal cual. No editarlos a mano.
+
+### `wit-*.svg` — propios, se pueden cambiar
+
+Dibujados para lo que **no es un producto de Microsoft**: Piso Digital, IA
+aplicada para lideres y las tres asesorias. Van en la paleta W-IT, navy
+`#1B3A50` con acento verde `#54BA00`, en `viewBox` de 24x24.
+
+Esa diferencia visual es intencional y comunica algo: **el logo de producto
+identifica a Microsoft, el icono propio identifica un servicio de W-IT.**
+
+Al dibujar uno nuevo, ojo con el peso: la primera version tenia trazo de 1.7 y a
+24 px se hundia al lado de los iconos solidos y de color de Microsoft. El trazo
+quedo en 2.2 y cada uno lleva un acento verde solido para tener algo de masa de
+color y no quedar como puro contorno.
 
 ### Enlaces a las guias: ojo con las URL de los PDF
 
