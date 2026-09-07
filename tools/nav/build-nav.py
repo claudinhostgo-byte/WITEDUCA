@@ -74,6 +74,7 @@ FOOTER_COLS = [
         ('Quiénes somos', '/nosotros/'),
         ('Contacto', '/contacto/'),
         ('contacto@witeduca.cl', 'mailto:contacto@witeduca.cl'),
+        ('Aviso de privacidad', '/privacidad/'),
     ]),
 ]
 
@@ -272,6 +273,7 @@ PAGINAS = {
     'nosotros/index.html': '/nosotros/',
     'recursos/index.html': '/recursos/',
     'contacto/index.html': '/contacto/',
+    'privacidad/index.html': '/privacidad/',
     '404.html': None,
 }
 
@@ -374,6 +376,25 @@ def poner_modal(s):
     return s.replace('</body>', modal + '\n\n</body>', 1)
 
 
+AVISO_DATOS = (u'<p class="form__legal">Al enviar, tratamos tus datos seg\u00fan nuestro '
+               u'<a href="/privacidad/">Aviso de privacidad</a>.</p>')
+
+RE_NOTA = re.compile(
+    r'(<p class="form__note">.*?</p>\n)(\s*)(?:<p class="form__legal">.*?</p>\n\s*)?',
+    re.S)
+
+
+def poner_aviso(s):
+    """Deja el aviso de privacidad justo despues de la nota de cada formulario.
+
+    Idempotente: si ya estaba, lo reemplaza. Aplica a los dos formularios del
+    sitio, el del modal y el de /contacto/, sin tocarlos a mano.
+    """
+    def sub(m):
+        return m.group(1) + m.group(2) + AVISO_DATOS + '\n' + m.group(2)
+    return RE_NOTA.sub(sub, s)
+
+
 RE_HP = re.compile(
     r'(<input class="hp"[^>]*>\n)(\s*)(?:<div class="cf-turnstile"[^>]*></div>\n\s*)?'
     r'(<div class="form__error")')
@@ -442,6 +463,7 @@ def main():
         s = poner_modal(s)
         s = poner_opciones(s)
         s = poner_turnstile(s)
+        s = poner_aviso(s)
 
         if s == original:
             continue

@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contacto | WITEDUCA</title>
-<meta name="description" content="Cuéntanos dónde está la brecha de tu organización: adopción de Copilot y Dynamics 365, nivelación tecnológica, gobernanza de IA. Te proponemos un punto de partida concreto.">
-<link rel="canonical" href="https://witeduca.cl/contacto/">
+<title>Aviso de privacidad y tratamiento de datos | WITEDUCA</title>
+<meta name="description" content="Qué datos personales recolecta witeduca.cl a través de su formulario de contacto, para qué se usan, con quién se comparten, cuánto se conservan y cómo ejercer tus derechos.">
+<link rel="canonical" href="https://witeduca.cl/privacidad/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WITEDUCA">
 <meta property="og:locale" content="es_CL">
-<meta property="og:title" content="Contacto | WITEDUCA">
-<meta property="og:description" content="Cuéntanos dónde está la brecha y te proponemos un punto de partida concreto.">
-<meta property="og:url" content="https://witeduca.cl/contacto/">
+<meta property="og:title" content="Aviso de privacidad y tratamiento de datos | WITEDUCA">
+<meta property="og:description" content="Qué datos recolectamos, para qué, con quién los compartimos y cómo ejercer tus derechos.">
+<meta property="og:url" content="https://witeduca.cl/privacidad/">
 <meta property="og:image" content="https://witeduca.cl/assets/og-witeduca.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -46,86 +46,117 @@
       <div class="nav__panel" id="nav-consultoria" hidden><p class="nav__panel-t">Asesoría y automatización</p><ul><li><a href="/oferta/#asesorias">Asesorías en IA y gobernanza</a></li><li><a href="/oferta/#agentes">Agentes autónomos</a></li></ul></div>
     </li>
     <li><a href="/nosotros/">Nosotros</a></li>
-    <li><a class="nav__cta" href="/contacto/" aria-current="page">Conversemos</a></li>
+    <li><a class="nav__cta" href="/contacto/">Conversemos</a></li>
   </ul>
 </header>
 
 <main>
 
-<section class="contact">
-  <div class="blob blob--a" style="opacity: 0.6"></div>
-  <div class="wrap contact__grid">
-    <div class="fade-up">
-      <div class="rule"></div>
-      <h1 class="h-page mt-2" style="font-size: clamp(36px, 4.6vw, 56px)">Conversemos.</h1>
-      <p class="lead mt-2" style="font-size: 17px; max-width: 46ch; line-height: 1.65">Cuéntanos dónde está la brecha de tu organización, adopción, nivelación, gobernanza de IA, y te proponemos un punto de partida concreto.</p>
-      <p class="text-sm mt-2" style="max-width: 46ch">¿Vienes por un <a href="/cursos-abiertos/" style="font-weight: 600">curso abierto</a>? Elige "Curso abierto" en el interés y dinos cuál te interesa. Te avisamos la próxima fecha antes de publicarla.</p>
-      <p class="text-sm mt-1" style="max-width: 46ch">¿Te interesan los cursos de <a href="/claude/" style="font-weight: 600">Claude de Anthropic</a> o preparar una certificación? Elige "Formación en Claude" y cuéntanos el rol de las personas a certificar.</p>
-      <div class="contact__ways">
-        <a class="contact__way" href="mailto:contacto@witeduca.cl"><span>@</span>contacto@witeduca.cl</a>
-        <div class="contact__way contact__way--muted"><span>CL</span><span style="display: inline-block; width: auto; height: auto; background: none; font-size: inherit; font-weight: inherit; color: inherit">Apoquindo 3039, Las Condes<br>Santiago de Chile</span></div>
-      </div>
-      <figure class="office">
-        <picture>
-          <source srcset="/assets/oficina-apoquindo.webp" type="image/webp">
-          <img src="/assets/oficina-apoquindo.jpg" alt="Edificio de oficinas de W-IT en Apoquindo 3039, Las Condes" width="1200" height="1600" loading="lazy">
-        </picture>
-        <figcaption><strong>Nuestras oficinas</strong> en Apoquindo 3039, Las Condes, Santiago.</figcaption>
-      </figure>
+<header class="hero hero--plain" style="background: none">
+  <div class="wrap fade-up">
+    <div class="rule"></div>
+    <h1 class="h-page mt-2">Aviso de privacidad y tratamiento de datos</h1>
+    <p class="lead mt-2" style="font-size: 18px; max-width: 62ch">Qué datos recolectamos en este sitio, para qué los usamos, con quién los compartimos y cómo puedes controlarlos.</p>
+    <p class="text-sm mt-2">Última actualización: 7 de septiembre de 2026</p>
+  </div>
+</header>
+
+<section class="section" style="padding-top: 30px">
+  <div class="wrap" style="max-width: 760px">
+
+    <div class="reveal">
+      <h2 class="h-line">Quién es responsable de tus datos</h2>
+      <p class="text mt-2">El responsable es <strong>W-IT SpA</strong>, con domicilio en Apoquindo 3039, Las Condes, Santiago de Chile. WITEDUCA es su unidad de formación y adopción tecnológica.</p>
+      <p class="text mt-2">Para cualquier consulta sobre tus datos, escribe a <a href="mailto:contacto@witeduca.cl" style="font-weight: 600">contacto@witeduca.cl</a>.</p>
     </div>
 
-    <div class="form-card fade-up fade-up--1">
-      <form class="form" id="form-contacto" method="post" action="/api/contacto" novalidate>
-        <div class="form__row">
-          <label class="field">Nombre
-            <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name" required maxlength="120">
-          </label>
-          <label class="field">Empresa u organización
-            <input type="text" name="empresa" placeholder="Tu organización" autocomplete="organization" maxlength="100">
-          </label>
-        </div>
-        <div class="form__row">
-          <label class="field">Cargo <small>(opcional)</small>
-            <input type="text" name="cargo" placeholder="Gerente de TI, jefa de personas…" autocomplete="organization-title" maxlength="100">
-          </label>
-          <label class="field">Tamaño de la organización
-            <select name="tamano" required>
-              <option value="" selected disabled>Selecciona</option>
-              <option>Solo yo</option>
-              <option>2 a 50 personas</option>
-              <option>51 a 500 personas</option>
-              <option>Más de 500 personas</option>
-              <option>Sector público</option>
-            </select>
-          </label>
-        </div>
-        <div class="form__row">
-          <label class="field">Correo
-            <input type="email" name="correo" placeholder="nombre@empresa.cl" autocomplete="email" required maxlength="100">
-          </label>
-          <label class="field">Teléfono <small>(opcional)</small>
-            <input type="tel" name="telefono" placeholder="+56 9 …" autocomplete="tel" maxlength="50">
-          </label>
-        </div>
-        <label class="field">¿Qué te interesa?
-          <select name="interes" required><optgroup label="Programas"><option>Adopción Garantizada</option><option>Nivelación tecnológica</option></optgroup><optgroup label="Cursos in-company · Microsoft"><option>Piso Digital</option><option>Copilot en el trabajo diario</option><option>Power Platform para el negocio</option><option>IA aplicada para líderes</option><option>Constructor de agentes</option></optgroup><optgroup label="Cursos abiertos"><option>Curso abierto: Copilot en el trabajo diario</option><option>Curso abierto: IA aplicada para líderes</option></optgroup><optgroup label="Claude de Anthropic"><option>Claude en el trabajo diario</option><option>Certificación Claude Associate</option><option>Certificación Claude Developer</option><option>Certificación Claude Architect – Foundations</option><option>Certificación Claude Architect – Professional</option></optgroup><optgroup label="Asesorías en IA"><option>Diagnóstico de Madurez IA</option><option>Política y Gobernanza de IA</option><option>Acompañamiento en IA</option></optgroup><option>Todavía no lo sé, quiero orientación</option><option>Agendar hora con un consultor</option><option>Otro</option></select>
-        </label>
-        <label class="field">Mensaje
-          <textarea name="mensaje" rows="4" placeholder="Cuéntanos brevemente tu situación" maxlength="2000"></textarea>
-        </label>
-        <input class="hp" type="text" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAErb2u1CQC3VqGpb" data-theme="light" data-language="es"></div>
-        <div class="form__error" role="alert" hidden></div>
-        <button class="form__submit" type="submit">Enviar mensaje</button>
-        <p class="form__note">También puedes escribir directo a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></p>
-      <p class="form__legal">Al enviar, tratamos tus datos según nuestro <a href="/privacidad/">Aviso de privacidad</a>.</p>
-      </form>
-      <div class="form__ok" hidden>
-        <div class="check">✓</div>
-        <h2>Mensaje enviado</h2>
-        <p>Gracias. Te responderemos a la brevedad al correo que indicaste.</p>
+    <div class="reveal" style="margin-top: 56px">
+      <h2 class="h-line">Qué datos recolectamos</h2>
+      <p class="text mt-2">Este sitio <strong>no usa cookies de publicidad ni de seguimiento</strong>. Solo recolectamos datos cuando tú decides enviarnos un formulario.</p>
+
+      <p class="text mt-3"><strong style="color: var(--navy)">Los que tú escribes en el formulario:</strong></p>
+      <div class="ticks" style="margin-top: 12px">
+        <div><span>·</span><span>Nombre y correo electrónico. Son los únicos obligatorios, junto con el tamaño de tu organización y el tema que te interesa.</span></div>
+        <div><span>·</span><span>Empresa u organización, cargo y teléfono, si decides completarlos.</span></div>
+        <div><span>·</span><span>El mensaje que nos escribas, si escribes uno.</span></div>
+      </div>
+
+      <p class="text mt-3"><strong style="color: var(--navy)">Los que el sitio registra junto a tu envío:</strong></p>
+      <div class="ticks" style="margin-top: 12px">
+        <div><span>·</span><span>La página desde la que enviaste el formulario, incluidos los parámetros de campaña si llegaste por un enlace de marketing.</span></div>
+        <div><span>·</span><span>La dirección web desde la que llegaste a nuestro sitio, si venías de otra.</span></div>
+        <div><span>·</span><span>Tu dirección IP, que se usa de forma temporal y solo para limitar envíos masivos automatizados. No se guarda junto a tu registro.</span></div>
       </div>
     </div>
+
+    <div class="reveal" style="margin-top: 56px">
+      <h2 class="h-line">Para qué los usamos</h2>
+      <p class="text mt-2">Para responder tu consulta y hacerte seguimiento comercial sobre lo que nos preguntaste: cotizarte un curso, coordinar una reunión o enviarte la información que pediste.</p>
+      <p class="text mt-2"><strong>No usamos tus datos para otra cosa.</strong> No los vendemos, no los cedemos a terceros con fines comerciales y no te vamos a inscribir en una lista de correos por haber enviado un formulario.</p>
+      <p class="text mt-2">La base que nos habilita a tratarlos es <strong>tu propio envío del formulario</strong>: tú nos entregas los datos con el fin explícito de que te contactemos.</p>
+    </div>
+
+    <div class="reveal" style="margin-top: 56px">
+      <h2 class="h-line">Con quién los compartimos</h2>
+      <p class="text mt-2">Con tres proveedores de tecnología, cada uno para una función específica. Ninguno los usa para fines propios.</p>
+      <div class="tbl reveal">
+        <table>
+          <caption>Proveedores que procesan datos de este sitio y para qué.</caption>
+          <thead>
+            <tr><th scope="col">Proveedor</th><th scope="col">Para qué</th><th scope="col">Qué recibe</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Microsoft Dynamics 365</th>
+              <td>Es nuestro CRM: ahí queda tu consulta para que el equipo comercial la atienda</td>
+              <td>Todo lo que enviaste en el formulario</td>
+            </tr>
+            <tr>
+              <th scope="row">Microsoft Azure</th>
+              <td>Aloja este sitio y procesa el envío del formulario</td>
+              <td>El envío, en tránsito</td>
+            </tr>
+            <tr>
+              <th scope="row">Cloudflare Turnstile</th>
+              <td>Verifica que quien envía el formulario es una persona y no un programa automatizado</td>
+              <td>Señales técnicas de tu navegador y tu IP. No recibe lo que escribiste</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text mt-3">Elegimos Turnstile en vez de otras herramientas de verificación precisamente porque <strong>no perfila a los visitantes para publicidad</strong>.</p>
+      <p class="text mt-2">Estos servicios operan en infraestructura global, por lo que <strong>tus datos pueden procesarse y almacenarse fuera de Chile</strong>, bajo los compromisos contractuales de protección de datos de cada proveedor.</p>
+    </div>
+
+    <div class="reveal" style="margin-top: 56px">
+      <h2 class="h-line">Cuánto tiempo los conservamos</h2>
+      <p class="text mt-2">Mantenemos tu consulta en nuestro CRM mientras siga vigente la relación comercial o el interés que la originó, y <strong>hasta que nos pidas eliminarla</strong>.</p>
+      <p class="text mt-2">Si nos escribiste y decidiste no seguir adelante, puedes pedirnos que borremos tus datos en cualquier momento y no necesitas darnos una razón.</p>
+    </div>
+
+    <div class="reveal" style="margin-top: 56px">
+      <h2 class="h-line">Tus derechos</h2>
+      <p class="text mt-2">Sobre los datos que tenemos tuyos, puedes pedirnos:</p>
+      <div class="ticks" style="margin-top: 12px">
+        <div><span>✓</span><span><strong>Acceder</strong> a ellos y saber qué tenemos y de dónde salió.</span></div>
+        <div><span>✓</span><span><strong>Corregirlos</strong> si están equivocados o incompletos.</span></div>
+        <div><span>✓</span><span><strong>Eliminarlos</strong>.</span></div>
+        <div><span>✓</span><span><strong>Oponerte</strong> a que los sigamos usando para contacto comercial.</span></div>
+        <div><span>✓</span><span><strong>Una copia</strong> de lo que nos entregaste, en un formato que puedas reutilizar.</span></div>
+      </div>
+      <p class="text mt-3">Escribe a <a href="mailto:contacto@witeduca.cl" style="font-weight: 600">contacto@witeduca.cl</a> indicando qué necesitas. Te respondemos al mismo correo desde el que nos escribas, y si es otro te vamos a pedir cómo verificar que los datos son tuyos — para no entregárselos a quien no corresponde.</p>
+    </div>
+
+    <div class="reveal" style="margin-top: 56px">
+      <h2 class="h-line">Cambios a este aviso</h2>
+      <p class="text mt-2">Si cambiamos cómo tratamos los datos, actualizamos este aviso y la fecha del encabezado. Si el cambio es relevante para quienes ya nos escribieron, se los avisamos por correo.</p>
+    </div>
+
+    <div class="panel panel--blue reveal" style="margin-top: 56px">
+      <h3>¿Algo no te calza?</h3>
+      <p>Si crees que estamos tratando tus datos de una forma que no corresponde, escríbenos primero a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a>: es lo más rápido para resolverlo. También puedes recurrir a la autoridad de protección de datos que corresponda.</p>
+    </div>
+
   </div>
 </section>
 
@@ -143,7 +174,7 @@
         <div><p class="footer__col-t">Programas</p><ul><li><a href="/adopcion-garantizada/">Adopción Garantizada</a></li><li><a href="/oferta/#nivelacion">Nivelación tecnológica</a></li></ul></div>
         <div><p class="footer__col-t">Cursos</p><ul><li><a href="/oferta/#cursos">Formación in-company</a></li><li><a href="/cursos-abiertos/">Cursos abiertos</a></li><li><a href="/claude/">Claude y certificaciones</a></li><li><a href="/recursos/">Recursos oficiales</a></li></ul></div>
         <div><p class="footer__col-t">Consultoría</p><ul><li><a href="/oferta/#asesorias">Asesorías en IA</a></li><li><a href="/oferta/#agentes">Agentes autónomos</a></li></ul></div>
-        <div><p class="footer__col-t">WITEDUCA</p><ul><li><a href="/oferta/">Toda la oferta</a></li><li><a href="/nosotros/">Quiénes somos</a></li><li><a href="/contacto/" aria-current="page">Contacto</a></li><li><a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></li><li><a href="/privacidad/">Aviso de privacidad</a></li></ul></div>
+        <div><p class="footer__col-t">WITEDUCA</p><ul><li><a href="/oferta/">Toda la oferta</a></li><li><a href="/nosotros/">Quiénes somos</a></li><li><a href="/contacto/">Contacto</a></li><li><a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></li><li><a href="/privacidad/" aria-current="page">Aviso de privacidad</a></li></ul></div>
       </nav>
     </div>
     <div class="footer__legal">© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile · Claude y Anthropic son marcas de Anthropic PBC. WITEDUCA no está afiliada a Anthropic; las certificaciones las emite Anthropic.</div>
