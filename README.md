@@ -183,6 +183,31 @@ circulando por correo no falle al enviarse.
 El grano fino es deliberado: el Lead le llega a Comercial con el curso exacto en
 el asunto, no con una categoria.
 
+## Google Ads: conversiones sin instalar nada
+
+`tools/ads/exportar-conversiones.js` extrae conversiones para Google Ads desde
+los Leads de Dynamics, **sin ningun script de Google en el sitio**.
+
+Funciona porque el formulario ya guarda `location.pathname + location.search`
+completo en el campo Origen de cada Lead. Con el **auto-tagging** de Google Ads
+activado (agrega `?gclid=...` a la URL de destino, sin cookies), ese gclid queda
+en el Lead sin tocar el sitio. El script lo extrae y arma el CSV de importacion
+de conversiones sin conexion.
+
+Es una herramienta local de linea de comandos, **no un endpoint publico**: nunca
+se despliega junto a las Azure Functions. La corre quien administre Comercial,
+a mano, cuando quiera subir conversiones acumuladas a Google Ads.
+
+**Recomendacion de seguridad:** no reusar el `DATAVERSE_CLIENT_SECRET` de la
+Function publica para esto. Crear un **usuario de aplicacion separado** en
+Dataverse con un rol que solo tenga **Leer** sobre Cliente potencial — los
+mismos pasos del paso 2 de la conexion a Dynamics, pero sin el privilegio de
+Crear. Asi, si ese segundo secreto se filtra alguna vez, el daño es leer Leads
+existentes, nunca crear ni modificar nada.
+
+Validado (regex de extraccion, formato de fecha, casos sin gclid) pero no
+probado contra Dataverse real: esta maquina no tiene Node instalado.
+
 ## Formulario de contacto → Dynamics 365
 
 El formulario de `contacto/index.html` hace `POST /api/contacto`. Esa ruta es una
