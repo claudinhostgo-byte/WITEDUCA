@@ -514,6 +514,12 @@ body.modal-abierto { overflow: hidden; }
 
 .card--stack { display: flex; flex-direction: column; }
 .card--stack .rate, .card--stack .exam { margin-top: auto; }
+/* Para tarjetas cuyo ultimo elemento es el CTA. Va aparte de .card--stack
+   porque ahi el que absorbe el espacio libre es .rate: si los dos llevaran
+   margin-top auto, flex reparte el espacio entre ambos y el boton se separa
+   del precio. */
+.card--btn-abajo { display: flex; flex-direction: column; }
+.card--btn-abajo > .btn:last-child { margin-top: auto; }
 
 .filter { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 .filter__count { font-size: 14px; color: var(--muted); }
