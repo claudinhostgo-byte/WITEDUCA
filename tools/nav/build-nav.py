@@ -157,7 +157,7 @@ def opciones_select():
 # publica por diseno, lo secreto es TURNSTILE_SECRET y vive en Azure.
 # Vacia = no se inyecta el widget ni el script, y el formulario funciona sin
 # verificacion. Asi se puede desplegar el codigo antes de tener las llaves.
-TURNSTILE_SITEKEY = ''
+TURNSTILE_SITEKEY = '0x4AAAAAAErb2u1CQC3VqGpb'
 
 
 def widget_turnstile():
