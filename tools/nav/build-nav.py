@@ -177,6 +177,19 @@ def script_turnstile():
             u' async defer></script>\n')
 
 
+# Token publico de Cloudflare Web Analytics. Va en el HTML a proposito: el
+# beacon es anonimo, sin cookies ni datos personales, asi que no hay secreto.
+# Vacio = no se inyecta nada. Se activa pegando el token y regenerando.
+CF_ANALYTICS_TOKEN = ''
+
+
+def script_analytics():
+    if not CF_ANALYTICS_TOKEN:
+        return u''
+    return (u'<script defer src="https://static.cloudflareinsights.com/beacon.min.js"'
+            u' data-cf-beacon=\'{"token": "%s"}\'></script>\n' % CF_ANALYTICS_TOKEN)
+
+
 CAMPOS_FORM = u"""        <div class="form__row">
           <label class="field">Nombre
             <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name" required maxlength="120">
@@ -252,6 +265,7 @@ def construir_modal():
         u'  </div>\n'
         u'</div>\n'
         + script_turnstile()
+        + script_analytics()
         + u'<!-- modal:fin -->'
     )
 

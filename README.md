@@ -381,6 +381,25 @@ fallaria siempre con `captcha_invalido`.
 Si Cloudflare no responde, el envio se **rechaza**. Preferimos perder un
 formulario antes que dejar la puerta abierta durante una caida suya.
 
+### Analítica: Cloudflare Web Analytics
+
+Se eligió sobre GA4 y Clarity por una razón que no es técnica: **no usa cookies ni
+datos personales**, así que no obliga a banner de consentimiento y deja verdadera
+la frase de `/privacidad/` de que el sitio no usa cookies de seguimiento. Es el
+mismo proveedor que Turnstile, ya declarado en el aviso, y es gratis.
+
+Lo que da: visitas y visitantes únicos, páginas más vistas, referentes, países,
+dispositivos y Core Web Vitals. **Lo que no da: embudos ni eventos** (no se puede
+medir "abrió el modal y no envió"). Para quienes sí convierten, la atribución ya
+existe: cada Lead lleva la página de origen, los UTM y el referente en su
+descripción.
+
+El token es público y vive en `CF_ANALYTICS_TOKEN`, en `tools/nav/build-nav.py`;
+el generador inyecta el beacon dentro del bloque del modal en las 11 páginas.
+Vacío = nada inyectado. **Si algún día se pasa a GA4**, no es pegar un script: hay
+que reescribir `/privacidad/`, poner banner de consentimiento y asumir que Google
+entra al sitio de una consultora que vende gobernanza de datos.
+
 ### Pendiente: aviso de tratamiento de datos
 
 El sitio **no tiene aviso de privacidad** y el formulario recolecta nombre,
@@ -855,10 +874,11 @@ mide 602 px. Al agregar o renombrar items del menu, **volver a medir**: el marge
   cuatro de ellas son PDF en S3 con URL fragil (ver arriba). Conviene revisarlas
   cada cierto tiempo; al 4 de septiembre de 2026 las 35 externas responden 200.
 
-- **Analítica**: falta agregar GA4 y Microsoft Clarity (requieren los IDs de las
-  cuentas) y registrar el dominio en Google Search Console y Bing Webmaster Tools.
-  **Al agregarlos hay que actualizar `/privacidad/`**: hoy declara que el sitio no
-  usa cookies de seguimiento, y con GA4 o Clarity eso deja de ser cierto.
+- **Analítica**: se eligió Cloudflare Web Analytics (ver la sección). Falta pegar
+  el token en `CF_ANALYTICS_TOKEN` de `tools/nav/build-nav.py` y regenerar. Sigue
+  pendiente registrar el dominio en Google Search Console y Bing Webmaster Tools,
+  que es lo que dice *cómo te encuentran en buscadores* y además permite pedir el
+  reindexado tras cambios como el del título de la home.
 - **Equipo**: la sección de equipo se retiró porque solo había placeholders. Volver a
   agregarla cuando existan nombres y fotos.
 - **Fotos de eventos**: aparecen personas identificables (participantes de clientes,
