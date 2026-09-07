@@ -282,7 +282,68 @@ administrada**, y el plan Free no permite un Function App propio. Por eso se usa
 client credentials con secreto. Si más adelante pasas a plan Standard con un
 Function App externo, conviene migrar a managed identity y eliminar el secreto.
 
-### Protección del formulario
+### Proteccion del formulario
+
+Cuatro capas, de la mas debil a la mas fuerte:
+
+1. **Campo trampa** (honeypot) oculto: si viene con texto, se descarta y se
+   responde 200 para no avisarle al bot que fue detectado.
+2. **Tiempo minimo de llenado**: si el envio llega en menos de 1,5 s se pide
+   reintentar. El valor lo manda el cliente y se puede falsear, asi que es una
+   senal debil. **Responde con error recuperable, no con un 200 silencioso**: del
+   honeypot no sale una persona por accidente, pero de un chequeo de tiempo si
+   podria, con autocompletado del navegador, y descartar en silencio un
+   formulario real seria lo peor posible — la persona ve "enviado" y el Lead
+   nunca llega.
+3. **Cloudflare Turnstile**: token verificado en el servidor contra
+   `challenges.cloudflare.com`. Es la defensa de verdad.
+4. **Limite de 5 envios por IP cada 10 minutos.** Es best-effort: la memoria no
+   se comparte entre instancias ni sobrevive al reciclaje, asi que frena a un bot
+   torpe desde una IP, no a uno distribuido.
+
+Validacion en servidor del correo, del interes y del tamano de organizacion; los
+largos se recortan a los limites de Dataverse para que la API no rechace el
+registro.
+
+### Por que Turnstile y no reCAPTCHA
+
+reCAPTCHA envia datos de comportamiento del visitante a Google, y sus terminos
+**obligan** a mostrar el badge o la declaracion "este sitio esta protegido por
+reCAPTCHA...". En el sitio de una consultora que vende Politica y Gobernanza de
+IA con cumplimiento de la Ley 21.719, eso es la primera pregunta que hace un
+cliente que audita la web antes de contratar. Turnstile da la misma proteccion
+practica sin perfilar al visitante y sin exigir declaracion.
+
+### Como se configura Turnstile
+
+- La **site key es publica** y vive en `TURNSTILE_SITEKEY`, en
+  `tools/nav/build-nav.py`. El script inyecta el widget en los dos formularios y
+  el `<script>` de Cloudflare.
+- El **secreto** va en Azure Static Web Apps como `TURNSTILE_SECRET`. Nunca en el
+  repositorio.
+
+**Con `TURNSTILE_SITEKEY` vacia no se inyecta nada** y el formulario funciona sin
+verificacion; con `TURNSTILE_SECRET` ausente el handler omite la verificacion y
+deja constancia en el log. Es deliberado: permite desplegar el codigo antes de
+tener las llaves sin dejar el formulario caido. Verificado que es reversible: al
+vaciar la llave y regenerar, no queda ningun residuo en las 10 paginas.
+
+El token de Turnstile es **de un solo uso**: `site.js` llama a
+`turnstile.reset()` al abrir el modal y despues de cada error, o el reintento
+fallaria siempre con `captcha_invalido`.
+
+Si Cloudflare no responde, el envio se **rechaza**. Preferimos perder un
+formulario antes que dejar la puerta abierta durante una caida suya.
+
+### Pendiente: aviso de tratamiento de datos
+
+El sitio **no tiene aviso de privacidad** y el formulario recolecta nombre,
+correo, telefono, empresa y cargo, y los manda a un CRM. Falta declarar la
+finalidad, el responsable y el plazo de conservacion. Es un hueco anterior a este
+cambio y mas grande que el del captcha, y se ve especialmente mal dado que
+`/oferta/` vende cumplimiento de la Ley 21.719. Cuando se agregue GA4, tambien
+tiene que quedar declarado ahi.
+
 
 - Campo trampa (honeypot) oculto: si viene con texto, se descarta y se responde 200
   para no avisarle al bot.

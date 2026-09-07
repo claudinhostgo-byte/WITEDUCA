@@ -170,8 +170,12 @@
       return faltan.length ? "Falta " + faltan.join(" y ") + "." : "Revisa los datos del formulario.";
     }
     if (codigo === "demasiados_envios") return "Recibimos varios envíos desde tu conexión. Espera unos minutos o escríbenos a contacto@witeduca.cl.";
+    if (codigo === "captcha_invalido") return "No pudimos verificar que eres una persona. Recarga la página e inténtalo de nuevo.";
+    if (codigo === "demasiado_rapido") return "El envío llegó demasiado rápido. Vuelve a apretar Enviar.";
     return "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos directo a contacto@witeduca.cl.";
   };
+
+  var inicioPagina = Date.now();
 
   var conectarForm = function (form, okBox) {
     if (!form) return;
@@ -193,6 +197,14 @@
       // envio. Con esto siempre se ve que algo paso.
       var inicio = Date.now();
       var MINIMO_VISIBLE = 500;
+      // El token de Turnstile se consume en cada intento. Sin este reset, un
+      // reintento despues de un error fallaria siempre con captcha_invalido.
+      var resetCaptcha = function () {
+        if (window.turnstile && typeof window.turnstile.reset === "function") {
+          try { window.turnstile.reset(); } catch (e) { /* widget aun no listo */ }
+        }
+      };
+
       var restaurar = function () {
         var falta = Math.max(0, MINIMO_VISIBLE - (Date.now() - inicio));
         setTimeout(function () {
@@ -206,6 +218,7 @@
       new FormData(form).forEach(function (v, k) { datos[k] = v; });
       datos.origen = location.pathname + location.search;
       datos.referente = document.referrer || "";
+      datos.llenado_ms = Date.now() - (Number(form.dataset.abierto) || inicioPagina);
 
       fetch("/api/contacto", {
         method: "POST",
@@ -228,9 +241,10 @@
             if (cab) cab.hidden = true;
           } else {
             showError(mensajeError(r.data.error, r.data.campos));
+            resetCaptcha();
           }
         })
-        .catch(function () { showError(mensajeError()); })
+        .catch(function () { showError(mensajeError()); resetCaptcha(); })
         .then(restaurar);
     });
   };
@@ -284,6 +298,10 @@
       if (okModal) okModal.hidden = true;
       var cab = $(".modal__cab", modal);
       if (cab) cab.hidden = false;
+      formModal.dataset.abierto = String(Date.now());
+      if (window.turnstile && typeof window.turnstile.reset === "function") {
+        try { window.turnstile.reset(); } catch (e) { /* widget aun no listo */ }
+      }
       var err = $(".form__error", formModal);
       if (err) err.hidden = true;
 

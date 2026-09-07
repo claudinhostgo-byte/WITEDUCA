@@ -153,6 +153,27 @@ def opciones_select():
     )
 
 
+# Site key publica de Cloudflare Turnstile. Va en el HTML a proposito: es
+# publica por diseno, lo secreto es TURNSTILE_SECRET y vive en Azure.
+# Vacia = no se inyecta el widget ni el script, y el formulario funciona sin
+# verificacion. Asi se puede desplegar el codigo antes de tener las llaves.
+TURNSTILE_SITEKEY = ''
+
+
+def widget_turnstile():
+    if not TURNSTILE_SITEKEY:
+        return u''
+    return (u'        <div class="cf-turnstile" data-sitekey="%s" data-theme="light"'
+            u' data-language="es"></div>\n' % TURNSTILE_SITEKEY)
+
+
+def script_turnstile():
+    if not TURNSTILE_SITEKEY:
+        return u''
+    return (u'<script src="https://challenges.cloudflare.com/turnstile/v0/api.js"'
+            u' async defer></script>\n')
+
+
 CAMPOS_FORM = u"""        <div class="form__row">
           <label class="field">Nombre
             <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name" required maxlength="120">
@@ -191,7 +212,7 @@ CAMPOS_FORM = u"""        <div class="form__row">
           <textarea name="mensaje" rows="3" placeholder="Cuéntanos brevemente tu situación" maxlength="2000"></textarea>
         </label>
         <input class="hp" type="text" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="form__error" role="alert" hidden></div>
+%(turnstile)s        <div class="form__error" role="alert" hidden></div>
         <button class="form__submit" type="submit">Enviar</button>
         <p class="form__note">O escríbenos directo a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></p>
 """
@@ -216,7 +237,7 @@ def construir_modal():
         u'      <p class="modal__sub">Te respondemos al correo que dejes. Sin compromiso.</p>\n'
         u'    </div>\n'
         u'    <form class="form" id="form-modal" method="post" action="/api/contacto" novalidate>\n'
-        + CAMPOS_FORM % {'opciones': opciones_select()} +
+        + CAMPOS_FORM % {'opciones': opciones_select(), 'turnstile': widget_turnstile()} +
         u'    </form>\n'
         u'    <div class="form__ok" hidden>\n'
         u'      <div class="check">&#10003;</div>\n'
@@ -227,7 +248,8 @@ def construir_modal():
         u'    </div>\n'
         u'  </div>\n'
         u'</div>\n'
-        u'<!-- modal:fin -->'
+        + script_turnstile()
+        + u'<!-- modal:fin -->'
     )
 
 
@@ -352,6 +374,28 @@ def poner_modal(s):
     return s.replace('</body>', modal + '\n\n</body>', 1)
 
 
+RE_HP = re.compile(
+    r'(<input class="hp"[^>]*>\n)(\s*)(?:<div class="cf-turnstile"[^>]*></div>\n\s*)?'
+    r'(<div class="form__error")')
+
+
+def poner_turnstile(s):
+    """Deja el widget justo antes de la caja de error de cada formulario.
+
+    Idempotente: si ya estaba, lo reemplaza; si TURNSTILE_SITEKEY esta vacia, lo
+    quita. Aplica a los dos formularios del sitio sin tocarlos a mano.
+    """
+    w = widget_turnstile()
+    if w:
+        w = w.strip() + '\n'
+
+    def sub(m):
+        sangria = m.group(2)
+        return m.group(1) + (sangria + w if w else '') + sangria + m.group(3)
+
+    return RE_HP.sub(sub, s)
+
+
 def poner_opciones(s):
     """Sincroniza las opciones de cualquier <select name="interes"> de la pagina."""
     ops = opciones_select()
@@ -397,6 +441,7 @@ def main():
         s = RE_FOOTER.sub(lambda m: construir_footer(url, minimo=(archivo == '404.html')), s, count=1)
         s = poner_modal(s)
         s = poner_opciones(s)
+        s = poner_turnstile(s)
 
         if s == original:
             continue
