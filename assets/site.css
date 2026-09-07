@@ -408,6 +408,7 @@ html:not(.js) .nav__btn::after { display: none; }
 .form__submit[disabled] { cursor: not-allowed; opacity: 0.7; }
 .form__submit[disabled].is-enviando { opacity: 1; background: var(--green-dark); }
 .form__note { margin: 0; font-size: 13px; color: var(--muted); text-align: center; }
+.form__legal { margin: 10px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted-2); text-align: center; }
 .form__ok { text-align: center; padding: 60px 20px; }
 .form__ok .check { width: 64px; height: 64px; border-radius: 50%; font-size: 30px; margin: 0 auto; }
 .form__ok h2 { margin-top: 24px; font-size: 24px; }

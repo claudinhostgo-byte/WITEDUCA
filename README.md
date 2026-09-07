@@ -1,3 +1,29 @@
+### Aviso de tratamiento de datos
+
+Vive en `/privacidad/` y esta enlazado desde el footer de todas las paginas y
+desde debajo del boton de los dos formularios (`.form__legal`, inyectado por
+`build-nav.py` como el widget de Turnstile: una definicion, dos formularios).
+
+Declara lo que el codigo hace de verdad, no una plantilla generica:
+
+- **Que se recolecta**: los campos del formulario, mas la pagina de origen con
+  sus parametros de campana, el referente, y la IP para el limite de envios.
+- **Con quien se comparte**: Dynamics 365 (el Lead), Azure (hosting y la
+  Function) y Cloudflare Turnstile (verificacion). Se declara que Turnstile
+  recibe senales del navegador y la IP pero **no** el contenido del formulario.
+- **Que puede salir de Chile**, por la infraestructura global de esos servicios.
+- **Conservacion**: mientras siga vigente el interes y hasta que la persona pida
+  eliminarlo. **No se invento un plazo fijo**, porque no estaba definido.
+
+Al cambiar el formulario, los proveedores o la analitica, **hay que actualizar
+este aviso y la fecha de su encabezado**. Si se agrega GA4, va declarado ahi y
+deja de ser cierta la frase "no usa cookies de publicidad ni de seguimiento".
+
+**El texto es un borrador tecnico**: describe fielmente el tratamiento, pero la
+base de licitud, el plazo de conservacion definitivo y la via de reclamo los
+tiene que revisar el Encargado de Plataforma y Seguridad. No corresponde que los
+fije quien escribe el codigo.
+
 # Sitio web W-IT Educa
 
 Sitio de WITEDUCA, la unidad de formación y adopción tecnológica de W-IT SpA.
@@ -20,6 +46,7 @@ JavaScript y para que funcione en móvil.
 | `/nosotros/` | `nosotros/index.html` | Nosotros — designaciones Microsoft y FAQ |
 | `/recursos/` | `recursos/index.html` | Recursos — hub de adopción Microsoft + material oficial de Anthropic y guías de examen |
 | `/contacto/` | `contacto/index.html` | Contacto — formulario |
+| `/privacidad/` | `privacidad/index.html` | Aviso de privacidad y tratamiento de datos |
 | — | `404.html` | Página de error |
 
 Las URLs antiguas (`/Oferta.dc.html`, etc.) redirigen con 301 a las nuevas; ver
@@ -49,7 +76,7 @@ assets/eventos/    12 fotos de eventos optimizadas (WebP + JPEG, 1000 px) para l
                   de Nosotros y la franja de la home. Los originales van en
                   assets/eventos/originales/, que está en .gitignore
 robots.txt        permite todo salvo /api/, apunta al sitemap
-sitemap.xml       las 9 URLs públicas
+sitemap.xml       las 9 URLs públicas (`/consultores/` esta fuera a proposito)
 ```
 
 Cada página lleva sus metadatos completos (`title`, `description`, `canonical`,
@@ -274,6 +301,25 @@ crm_no_disponible` en el formulario, con token y WhoAmI en verde.
 Se prefirio este rol a medida antes que asignar *Vendedor*: si el secreto se
 filtra, el dano queda acotado a crear Clientes potenciales y no a leerse la base
 comercial completa.
+
+### Secretos y su renovacion
+
+Dos secretos hacen andar el formulario, los dos en variables de entorno de Azure
+Static Web Apps y **ninguno en el repositorio**:
+
+| Variable | Para que | Vence |
+|---|---|---|
+| `DATAVERSE_CLIENT_SECRET` | crear el Lead en Dynamics | **3 de septiembre de 2028** |
+| `TURNSTILE_SECRET` | verificar el captcha | no vence |
+
+**Cuando el de Dataverse expire, el formulario deja de crear Leads sin aviso**:
+la persona ve el error generico y nadie se entera hasta que alguien reclame.
+Conviene tenerlo en el calendario del equipo. `GET /api/health?verificar=1`
+detecta la falla al instante, con el codigo AADSTS.
+
+Si un secreto se expone — por ejemplo en una captura de pantalla — se rota en su
+consola de origen y se actualiza la variable en Azure. Turnstile solo permite
+rotar una vez cada dos horas.
 
 ### Nota sobre el secreto
 
@@ -724,6 +770,8 @@ mide 602 px. Al agregar o renombrar items del menu, **volver a medir**: el marge
 
 - **Analítica**: falta agregar GA4 y Microsoft Clarity (requieren los IDs de las
   cuentas) y registrar el dominio en Google Search Console y Bing Webmaster Tools.
+  **Al agregarlos hay que actualizar `/privacidad/`**: hoy declara que el sitio no
+  usa cookies de seguimiento, y con GA4 o Clarity eso deja de ser cierto.
 - **Equipo**: la sección de equipo se retiró porque solo había placeholders. Volver a
   agregarla cuando existan nombres y fotos.
 - **Fotos de eventos**: aparecen personas identificables (participantes de clientes,
