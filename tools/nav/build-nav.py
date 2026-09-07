@@ -93,6 +93,8 @@ INTERESES = [
         'Piso Digital',
         'Copilot en el trabajo diario',
         'Power Platform para el negocio',
+        'Dynamics 365 para ventas y servicio',
+        'Dynamics 365 para finanzas y operaciones',
         'IA aplicada para líderes',
         'Constructor de agentes',
     ]),

@@ -38,7 +38,7 @@ JavaScript y para que funcione en móvil.
 | URL | Archivo | Página |
 |---|---|---|
 | `/` | `index.html` | Home |
-| `/oferta/` | `oferta/index.html` | Oferta — 4 líneas de trabajo + carrusel de agentes IA |
+| `/oferta/` | `oferta/index.html` | Oferta Microsoft — 4 líneas de trabajo, 7 cursos in-company + carrusel de agentes IA |
 | `/adopcion-garantizada/` | `adopcion-garantizada/index.html` | Adopción Garantizada — programa ancla |
 | `/cursos-abiertos/` | `cursos-abiertos/index.html` | Cursos abiertos — segundo camino: personas, ejecutivos y equipos pequeños |
 | `/claude/` | `claude/index.html` | Claude de Anthropic — curso de entrada + preparación para las 4 certificaciones |
@@ -634,6 +634,21 @@ Nosotros         enlace directo a /nosotros/
 aprendizaje — guias de examen, documentacion, cursos gratuitos — no informacion
 institucional. Con eso Nosotros quedaba con un solo item, y un desplegable de uno
 es ruido, asi que es un enlace directo.
+
+### Dynamics 365: dos cursos, no uno
+
+Se separo en **ventas y servicio** (Sales, Customer Service) y **finanzas y
+operaciones** (Finance, Business Central), en vez de copiar el patron de una
+tarjeta unica que tiene Power Platform.
+
+La razon: Power Platform es una familia coherente para un publico — analistas y
+jefaturas de proceso — pero Dynamics 365 abarca CRM y ERP, y un usuario de Sales
+no tiene nada que ver con uno de Business Central. Una tarjeta unica dejaria la
+linea de audiencia en algo como "usuarios de Dynamics 365", que no le dice nada a
+quien decide la compra.
+
+Si mas adelante conviene abrir una tarjeta por modulo, el costo es que el selector
+del formulario crece: cada curso es un valor del catalogo de intereses.
 
 ### Por que los items de la barra son de una palabra
 
