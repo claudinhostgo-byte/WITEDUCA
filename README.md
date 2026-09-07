@@ -254,8 +254,7 @@ está en `.gitignore`; usa `api/local.settings.json.example` como plantilla para
 desarrollo local.
 
 `LEAD_SOURCE_CODE` es el valor de `leadsourcecode`; **8 = "Web"** en el conjunto de
-opciones estándar de D365. Si tu entorno lo personalizó, confirma el valor real
-antes de publicar.
+opciones estándar de D365. Confirmado el 7 de septiembre de 2026 contra un Lead real: en este entorno el 8 cae en "Web"
 
 ### Diagnostico de la conexion
 
