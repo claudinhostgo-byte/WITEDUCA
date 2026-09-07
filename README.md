@@ -37,7 +37,7 @@ JavaScript y para que funcione en móvil.
 
 | URL | Archivo | Página |
 |---|---|---|
-| `/` | `index.html` | Home |
+| `/` | `index.html` | Home — hero "Aprende IA con quienes la implementan", dos puertas y tira de clientes |
 | `/oferta/` | `oferta/index.html` | Oferta Microsoft — 4 líneas de trabajo, 7 cursos in-company + carrusel de agentes IA |
 | `/adopcion-garantizada/` | `adopcion-garantizada/index.html` | Adopción Garantizada — programa ancla |
 | `/cursos-abiertos/` | `cursos-abiertos/index.html` | Cursos abiertos — segundo camino: personas, ejecutivos y equipos pequeños |
@@ -400,6 +400,35 @@ tiene que quedar declarado ahi.
 - Validación en servidor del correo, del interés y del tamaño de organización; los
   largos se recortan a los límites de los campos de Dataverse para que la API no
   rechace el registro.
+
+## El hero de la home
+
+Titular: **"Aprende IA con quienes la implementan."** Debajo, dos puertas —
+*Para tu organización* (a `/oferta/`) y *Para ti* (cursos abiertos y
+certificaciones de Claude) — y una tira de seis clientes como prueba.
+
+Se eligió entre tres direcciones (credibilidad, audiencia, prueba) y ganó la de
+credibilidad porque es la única verdadera a la vez para los dos públicos y los
+dos ecosistemas: el gerente y el ejecutivo que aprende solo comparten que ya
+tienen la IA y desconfían de promesas. El hero anterior — "Tu plataforma ya está
+lista. ¿Y tu gente?" — solo le hablaba a la empresa con Microsoft, y sus dos
+botones eran corporativos: la persona no tenía puerta.
+
+Consecuencias del cambio:
+
+- Salió el panel ilustrativo de Copilot (`.mock`) y su CSS. La medición sigue en
+  la bajada y en la sección "El impacto se mide".
+- Salió la franja "Cursos abiertos" que iba bajo el hero: la puerta *Para ti* la
+  dejaba redundante. La clase `.band` sigue viva en `/oferta/`.
+- Los seis logos del hero (Codelco, LATAM, Cencosud, Banco Ripley, Mallplaza,
+  ChileAtiende) van en escala de grises y toman color al pasar el mouse. Su uso
+  destacado en la home quedó **autorizado el 7 de septiembre de 2026**; siguen
+  sujetos a la confirmación por cliente que pide el pendiente de logos.
+- La cifra **"más de 15 años"** quedó confirmada el 7 de septiembre de 2026 y por
+  eso entra en la bajada.
+
+La comparación de las tres direcciones quedó publicada como artefacto interno,
+para no perder el razonamiento si se reabre la discusión.
 
 ## Dos caminos en un sitio
 
@@ -841,7 +870,6 @@ mide 602 px. Al agregar o renombrar items del menu, **volver a medir**: el marge
   los que no.
 - **Artículos**: Recursos muestra solo el hub oficial de Microsoft hasta que haya un
   artículo propio publicado.
-- **Cifra "15+ años"**: confirmar con Administración antes de que quede indexada.
 - **Agentes**: la sección de Oferta mantiene los 15 agentes a la espera de decidir si
   se reducen a ejemplos dentro del curso constructor de agentes.
 

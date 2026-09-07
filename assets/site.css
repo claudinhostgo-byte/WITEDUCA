@@ -168,7 +168,6 @@ html:not(.js) .nav__btn::after { display: none; }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; padding: 150px var(--pad) 90px; background: linear-gradient(155deg, var(--blue-soft) 0%, #FFFFFF 45%, var(--green-soft) 100%); overflow: hidden; }
-.hero__grid { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 72px; align-items: center; }
 .hero--navy { background: var(--navy); padding: 180px var(--pad) 110px; }
 .hero--plain { padding: 170px var(--pad) 70px; }
 .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); background: #FFFFFF; }
@@ -183,36 +182,22 @@ html:not(.js) .nav__btn::after { display: none; }
   .hero { padding: 120px var(--pad) 64px; }
   .hero--navy { padding: 130px var(--pad) 72px; }
   .hero--plain { padding: 120px var(--pad) 48px; }
-  .hero__grid { grid-template-columns: 1fr; gap: 48px; }
 }
 
-/* Mock del Copilot Dashboard en la home */
-.mock { position: relative; min-height: 460px; }
-.mock__panel { position: absolute; top: 30px; left: 0; right: 56px; bottom: 90px; background: var(--navy); border-radius: 16px; box-shadow: 0 16px 40px rgba(27,58,80,0.25); padding: 32px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-.mock__panel .dots { background-size: 24px 24px; background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); }
-.mock__kpi { position: relative; }
-.mock__kpi .eyebrow { font-size: 12px; color: rgba(255,255,255,0.6); }
-.mock__num { margin: 10px 0 0; font-size: 40px; font-weight: 600; color: #FFFFFF; font-variant-numeric: tabular-nums; }
-.mock__num span { font-size: 22px; color: var(--green); }
-.mock__cap { margin: 4px 0 0; font-size: 13px; color: rgba(255,255,255,0.6); }
-.mock__bars { position: relative; display: flex; align-items: flex-end; gap: 10px; height: 130px; }
-.mock__bars i { flex: 1; border-radius: 6px 6px 0 0; background: rgba(255,255,255,0.18); }
-.mock__bars i:nth-child(1) { height: 28%; } .mock__bars i:nth-child(2) { height: 42%; background: rgba(255,255,255,0.24); }
-.mock__bars i:nth-child(3) { height: 55%; background: rgba(84,186,0,0.45); } .mock__bars i:nth-child(4) { height: 72%; background: rgba(84,186,0,0.7); } .mock__bars i:nth-child(5) { height: 92%; background: var(--green); }
-.mock__card { position: absolute; right: 0; bottom: 30px; width: 300px; background: #FFFFFF; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-md); padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
-.mock__item { display: flex; align-items: center; gap: 12px; }
-.mock__item strong { font-size: 14px; color: var(--navy); }
-.mock__item p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-.check { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: var(--green-soft); color: var(--green-dark); font-weight: 700; font-size: 16px; flex-shrink: 0; }
-.check--blue { background: var(--blue-soft); color: var(--navy); }
-.mock__badge { position: absolute; top: 0; right: 90px; padding: 9px 20px; background: var(--green); color: #FFFFFF; border-radius: 999px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 8px rgba(84,186,0,0.35); }
-.mock__note { position: absolute; left: 0; bottom: 0; font-size: 12px; color: var(--muted-2); }
+/* Hero de la home: dos puertas y una tira de clientes como prueba */
+.hero__doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; max-width: 900px; }
+.hero__doors .card { padding: 30px 30px 28px; }
+.hero__doors .card__more { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.hero__doors .card__more a { color: var(--green-dark); }
+.hero__doors .card__more a:hover { color: var(--green); }
+.hero__proof { display: flex; align-items: center; gap: 16px 32px; flex-wrap: wrap; margin-top: 44px; }
+.hero__proof-logos { display: flex; align-items: center; gap: 22px 34px; flex-wrap: wrap; }
+.hero__proof-logos img { height: 28px; width: auto; max-width: 150px; object-fit: contain; filter: grayscale(1); opacity: 0.72; transition: filter 200ms, opacity 200ms; }
+.hero__proof-logos img:hover { filter: none; opacity: 1; }
 @media (max-width: 900px) {
-  .mock { min-height: 0; display: flex; flex-direction: column; gap: 16px; padding-top: 20px; }
-  .mock__panel, .mock__card { position: static; width: auto; }
-  .mock__panel { padding: 28px 24px; gap: 28px; }
-  .mock__badge { top: 0; right: 0; }
-  .mock__note { position: static; }
+  .hero__doors { grid-template-columns: 1fr; }
+  .hero__proof { margin-top: 36px; }
+  .hero__proof-logos img { height: 24px; max-width: 128px; }
 }
 
 /* Marquee */
