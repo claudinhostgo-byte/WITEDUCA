@@ -30,6 +30,7 @@ const INTERESES = [
   'Certificación Claude Developer',
   'Certificación Claude Architect – Foundations',
   'Certificación Claude Architect – Professional',
+  'Selección de Plataforma',
   'Diagnóstico de Madurez IA',
   'Política y Gobernanza de IA',
   'Acompañamiento en IA',

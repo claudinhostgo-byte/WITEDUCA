@@ -46,6 +46,7 @@ NAV = [
     # definidos. Al publicarlo, devolver aqui ('Horas con un consultor',
     # '/consultores/') y quitar el noindex de la pagina. Ver el README.
     ('Consultoría', 'nav-consultoria', 'Asesoría y automatización', [
+        ('Selección de plataforma', '/seleccion-de-plataforma/'),
         ('Asesorías en IA y gobernanza', '/oferta/#asesorias'),
         ('Agentes autónomos', '/oferta/#agentes'),
     ]),
@@ -66,6 +67,7 @@ FOOTER_COLS = [
         ('Recursos oficiales', '/recursos/'),
     ]),
     ('Consultoría', [
+        ('Selección de plataforma', '/seleccion-de-plataforma/'),
         ('Asesorías en IA', '/oferta/#asesorias'),
         ('Agentes autónomos', '/oferta/#agentes'),
     ]),
@@ -73,7 +75,7 @@ FOOTER_COLS = [
         ('Toda la oferta', '/oferta/'),
         ('Quiénes somos', '/nosotros/'),
         ('Contacto', '/contacto/'),
-        ('contacto@witeduca.cl', 'mailto:contacto@witeduca.cl'),
+        ('informacion@witeduca.cl', 'mailto:informacion@witeduca.cl'),
         ('Aviso de privacidad', '/privacidad/'),
     ]),
 ]
@@ -110,6 +112,7 @@ INTERESES = [
         'Certificación Claude Architect – Professional',
     ]),
     ('Asesorías en IA', [
+        'Selección de Plataforma',
         'Diagnóstico de Madurez IA',
         'Política y Gobernanza de IA',
         'Acompañamiento en IA',
@@ -230,7 +233,7 @@ CAMPOS_FORM = u"""        <div class="form__row">
         <input class="hp" type="text" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true">
 %(turnstile)s        <div class="form__error" role="alert" hidden></div>
         <button class="form__submit" type="submit">Enviar</button>
-        <p class="form__note">O escríbenos directo a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a></p>
+        <p class="form__note">O escríbenos directo a <a href="mailto:informacion@witeduca.cl">informacion@witeduca.cl</a></p>
 """
 
 
@@ -259,7 +262,7 @@ def construir_modal():
         u'      <div class="check">&#10003;</div>\n'
         u'      <h2>Listo, recibimos tu mensaje</h2>\n'
         u'      <p>Te escribimos al correo que dejaste. Si es urgente, tambi\u00e9n puedes'
-        u' escribirnos a <a href="mailto:contacto@witeduca.cl">contacto@witeduca.cl</a>.</p>\n'
+        u' escribirnos a <a href="mailto:informacion@witeduca.cl">informacion@witeduca.cl</a>.</p>\n'
         u'      <button class="btn btn--navy btn--sm" type="button" data-modal-cerrar>Cerrar</button>\n'
         u'    </div>\n'
         u'  </div>\n'
@@ -275,8 +278,8 @@ LEGAL = (u'© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile · 
          u'a Anthropic; las certificaciones las emite Anthropic.')
 
 LEGAL_404 = (u'© 2026 W-IT SpA · Apoquindo 3039, Las Condes, Santiago de Chile · '
-             u'<a href="mailto:contacto@witeduca.cl" style="color: rgba(255,255,255,0.75)">'
-             u'contacto@witeduca.cl</a>')
+             u'<a href="mailto:informacion@witeduca.cl" style="color: rgba(255,255,255,0.75)">'
+             u'informacion@witeduca.cl</a>')
 
 # archivo -> URL publica. None = sin URL propia (404), no marca nada como actual.
 PAGINAS = {
@@ -288,6 +291,7 @@ PAGINAS = {
     'consultores/index.html': '/consultores/',
     'nosotros/index.html': '/nosotros/',
     'recursos/index.html': '/recursos/',
+    'seleccion-de-plataforma/index.html': '/seleccion-de-plataforma/',
     'contacto/index.html': '/contacto/',
     'privacidad/index.html': '/privacidad/',
     '404.html': None,
@@ -324,6 +328,14 @@ def construir_nav(url):
             u'      <div class="nav__panel" id="%s" hidden><p class="nav__panel-t">%s</p><ul>%s</ul></div>\n'
             u'    </li>' % (clase, ref, etiqueta, ref, descriptor, enlaces)
         )
+    # Presencia en Chile y Peru: dos banderitas discretas antes del CTA. Van
+    # dentro del <ul>, asi que en movil viajan al menu desplegable.
+    filas.append(
+        u'    <li class="nav__flags" title="Presencia en Chile y Perú" aria-label="Presencia en Chile y Perú">\n'
+        u'      <img src="/assets/banderas/chile.svg" alt="" width="16" height="11">\n'
+        u'      <img src="/assets/banderas/peru.svg" alt="" width="16" height="11">\n'
+        u'    </li>'
+    )
     cta_act = ' aria-current="page"' if es_actual(CTA[1], url) else ''
     filas.append(u'    <li><a class="nav__cta" href="%s"%s>%s</a></li>' % (CTA[1], cta_act, CTA[0]))
 

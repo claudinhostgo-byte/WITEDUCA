@@ -169,10 +169,10 @@
       var faltan = (campos || []).map(function (c) { return etiquetas[c] || c; });
       return faltan.length ? "Falta " + faltan.join(" y ") + "." : "Revisa los datos del formulario.";
     }
-    if (codigo === "demasiados_envios") return "Recibimos varios envíos desde tu conexión. Espera unos minutos o escríbenos a contacto@witeduca.cl.";
+    if (codigo === "demasiados_envios") return "Recibimos varios envíos desde tu conexión. Espera unos minutos o escríbenos a informacion@witeduca.cl.";
     if (codigo === "captcha_invalido") return "No pudimos verificar que eres una persona. Recarga la página e inténtalo de nuevo.";
     if (codigo === "demasiado_rapido") return "El envío llegó demasiado rápido. Vuelve a apretar Enviar.";
-    return "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos directo a contacto@witeduca.cl.";
+    return "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos directo a informacion@witeduca.cl.";
   };
 
   var inicioPagina = Date.now();
