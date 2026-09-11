@@ -456,12 +456,21 @@ Verificado en local contra el beacon real de Google: envío correcto en ambos
 formularios dispara una conversión con `label=xcylCP_WkvQcEL6zx64C`; respuesta de
 error de la API y caída de red disparan cero.
 
-**Contradice `/privacidad/`.** El aviso afirma hoy, en negrita, que el sitio *no usa
-cookies de publicidad ni de seguimiento*. Con esta etiqueta esa frase es falsa. Es
-exactamente el escenario que anticipa la sección anterior: hay que reescribir el
-aviso, poner banner de consentimiento (Ley 21.719) y asumir que Google entra al
-sitio de una consultora que vende gobernanza de datos. **Mientras eso no se
-resuelva, esto no debería llegar a `main`**, porque un push a `main` despliega.
+**`/privacidad/` quedó reescrito.** El aviso afirmaba en negrita que el sitio *no usa
+cookies de publicidad ni de seguimiento*, y con esta etiqueta esa frase pasó a ser
+falsa. Ahora declara la cookie `_gcl_au` por su nombre, para qué sirve, que no se
+usa para perfilar ni para publicidad en otros sitios, y que bloquear cookies de
+terceros no rompe nada. Google Ads se sumó a la tabla de terceros. **Si algún día se
+cambia el alcance de la medición —conversiones avanzadas, GA4, remarketing— hay que
+volver a tocar ese aviso**: es la parte que envejece mal y la que un cliente que
+audita la web sí lee.
+
+**Sigue pendiente el banner de consentimiento.** La Ley 21.719 empuja hacia pedir
+consentimiento antes de instalar cookies publicitarias, no solo a declararlas. Hoy
+la etiqueta carga sin preguntar. Lo que corresponde es Consent Mode v2 con
+`ad_storage` en `denied` por defecto y un banner que lo levante; mientras tanto,
+`GOOGLE_TAG_ID = ''` apaga todo en una línea. Decisión de Administración/Legal, no
+técnica.
 
 Decisiones abiertas, ninguna técnica:
 
