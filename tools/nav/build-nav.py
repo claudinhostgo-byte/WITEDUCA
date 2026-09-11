@@ -193,6 +193,35 @@ def script_analytics():
             u' data-cf-beacon=\'{"token": "%s"}\'></script>\n' % CF_ANALYTICS_TOKEN)
 
 
+# --- Etiqueta de Google (gtag.js) ---------------------------------------------
+# ID de la cuenta de Google Ads 807-842-4837 (W-IT). Es publico por definicion,
+# igual que el token del beacon de Cloudflare. Vacio = no se inyecta nada en
+# ninguna pagina: ese es el interruptor para apagar el seguimiento sin tener que
+# tocar las 12 paginas a mano.
+#
+# OJO antes de que esto llegue a main: /privacidad/ afirma hoy que el sitio "no
+# usa cookies de publicidad ni de seguimiento". Con esta etiqueta esa frase deja
+# de ser cierta. Hay que reescribir el aviso y resolver el banner de
+# consentimiento (Ley 21.719) primero. Ver el README.
+#
+# La etiqueta del evento de conversion vive en assets/site.js, que es donde se
+# dispara: cuando la API confirma el envio del formulario.
+GOOGLE_TAG_ID = 'AW-634509758'
+
+
+def script_gtag():
+    if not GOOGLE_TAG_ID:
+        return u''
+    return (u'<!-- Google tag (gtag.js) -->\n'
+            u'<script async src="https://www.googletagmanager.com/gtag/js?id=%(id)s"></script>\n'
+            u'<script>\n'
+            u'  window.dataLayer = window.dataLayer || [];\n'
+            u'  function gtag(){dataLayer.push(arguments);}\n'
+            u"  gtag('js', new Date());\n"
+            u"  gtag('config', '%(id)s');\n"
+            u'</script>\n') % {'id': GOOGLE_TAG_ID}
+
+
 CAMPOS_FORM = u"""        <div class="form__row">
           <label class="field">Nombre
             <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="name" required maxlength="120">
@@ -445,6 +474,24 @@ def poner_turnstile(s):
     return RE_HP.sub(sub, s)
 
 
+RE_GTAG = re.compile(
+    r'(<meta name="viewport"[^>]*>\n)'
+    r'(?:<!-- Google tag \(gtag\.js\) -->\n'
+    r'<script async[^>]*></script>\n'
+    r'<script>.*?</script>\n)?',
+    re.S)
+
+
+def poner_gtag(s):
+    """Deja la etiqueta de Google lo mas arriba posible del <head>.
+
+    Google pide que vaya antes que cualquier otro script: si carga despues, se
+    pierden los eventos disparados mientras tanto. Idempotente: si ya estaba la
+    reemplaza, y con GOOGLE_TAG_ID vacio la borra de las 12 paginas.
+    """
+    return RE_GTAG.sub(lambda m: m.group(1) + script_gtag(), s, count=1)
+
+
 def poner_opciones(s):
     """Sincroniza las opciones de cualquier <select name="interes"> de la pagina."""
     ops = opciones_select()
@@ -488,6 +535,7 @@ def main():
 
         s = RE_NAV.sub(lambda m: construir_nav(url), s, count=1)
         s = RE_FOOTER.sub(lambda m: construir_footer(url, minimo=(archivo == '404.html')), s, count=1)
+        s = poner_gtag(s)
         s = poner_modal(s)
         s = poner_opciones(s)
         s = poner_turnstile(s)

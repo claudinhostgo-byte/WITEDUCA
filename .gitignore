@@ -12,3 +12,7 @@ api/local.settings.json
 
 # Fotos originales de eventos (pesadas); en el sitio van las optimizadas
 assets/eventos/originales/
+
+# Cache de Python (tools/)
+__pycache__/
+*.pyc

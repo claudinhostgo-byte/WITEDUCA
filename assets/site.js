@@ -175,6 +175,18 @@
     return "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos directo a informacion@witeduca.cl.";
   };
 
+  /* Conversion de Google Ads. Se dispara solo cuando la API confirmo el envio:
+     si se colgara del submit o del clic contariamos tambien los rechazos de
+     validacion y los intentos fallidos. */
+  var registrarConversion = function () {
+    if (typeof gtag !== "function") return;
+    gtag("event", "conversion", {
+      send_to: "AW-634509758/xcylCP_WkvQcEL6zx64C",
+      value: 1.0,
+      currency: "CLP"
+    });
+  };
+
   var inicioPagina = Date.now();
 
   var conectarForm = function (form, okBox) {
@@ -232,6 +244,7 @@
         })
         .then(function (r) {
           if (r.res.ok && r.data.ok) {
+            registrarConversion();
             form.hidden = true;
             if (okBox) okBox.hidden = false;
             // En el modal la cabecera sobra una vez enviado: si no, quedan dos

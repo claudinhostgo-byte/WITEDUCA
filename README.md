@@ -425,6 +425,55 @@ Vacío = nada inyectado. **Si algún día se pasa a GA4**, no es pegar un script
 que reescribir `/privacidad/`, poner banner de consentimiento y asumir que Google
 entra al sitio de una consultora que vende gobernanza de datos.
 
+### Seguimiento de conversiones de Google Ads
+
+La campaña de Google Ads no podía registrar ni una conversión: el sitio no tenía
+ninguna etiqueta de medición. Se instaló la **etiqueta de Google (gtag.js)** de la
+cuenta 807-842-4837, con una sola acción de conversión, *WITEDUCA - Formulario de
+contacto* (una por clic, ventana de 90 días).
+
+Dónde vive cada pieza:
+
+| Pieza | Archivo | Valor |
+| --- | --- | --- |
+| ID de la etiqueta | `tools/nav/build-nav.py` → `GOOGLE_TAG_ID` | `AW-634509758` |
+| Etiqueta del evento | `assets/site.js` → `registrarConversion()` | `AW-634509758/xcylCP_WkvQcEL6zx64C` |
+
+El generador inyecta el snippet **en el `<head>`, justo después del `viewport`**, no
+en el bloque del modal como el beacon de Cloudflare: Google pide que cargue antes
+que cualquier otro script o se pierden los eventos disparados mientras tanto. Con
+`GOOGLE_TAG_ID` vacío no se inyecta nada y el HTML vuelve a quedar idéntico al de
+antes; ese es el interruptor para apagarlo sin tocar las 12 páginas.
+
+El evento se dispara **solo cuando la API confirma el envío**, dentro de la rama de
+éxito de `conectarForm` en `site.js`. Ese manejador es el mismo para los dos
+formularios del sitio, así que cubre `#form-contacto` y `#form-modal` con un solo
+punto. Colgarlo del `submit` o del clic contaría también los rechazos de validación
+y los intentos fallidos, que son varios: Turnstile rechaza, el límite por IP
+rechaza, y el honeypot responde 200 sin crear el Lead.
+
+Verificado en local contra el beacon real de Google: envío correcto en ambos
+formularios dispara una conversión con `label=xcylCP_WkvQcEL6zx64C`; respuesta de
+error de la API y caída de red disparan cero.
+
+**Contradice `/privacidad/`.** El aviso afirma hoy, en negrita, que el sitio *no usa
+cookies de publicidad ni de seguimiento*. Con esta etiqueta esa frase es falsa. Es
+exactamente el escenario que anticipa la sección anterior: hay que reescribir el
+aviso, poner banner de consentimiento (Ley 21.719) y asumir que Google entra al
+sitio de una consultora que vende gobernanza de datos. **Mientras eso no se
+resuelva, esto no debería llegar a `main`**, porque un push a `main` despliega.
+
+Decisiones abiertas, ninguna técnica:
+
+- **Valor del lead**: hoy va `value: 1.0` en CLP, que es un marcador. Sin el valor
+  real de un lead calificado no se puede medir retorno, solo volumen.
+- **Conversiones avanzadas**: desactivadas. Mejoran la medición pero implican
+  aceptar las Condiciones del Tratamiento de Datos de Google, que es una aceptación
+  de términos a nombre de W-IT.
+- **Clic en el correo**: los `mailto:informacion@witeduca.cl` del sitio podrían ser
+  una conversión secundaria.
+- **GA4**: no existe propiedad para witeduca.cl; las dos que hay son de w-it.cl.
+
 ### Pendiente: aviso de tratamiento de datos
 
 El sitio **no tiene aviso de privacidad** y el formulario recolecta nombre,
