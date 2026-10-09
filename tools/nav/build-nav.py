@@ -183,7 +183,7 @@ def script_turnstile():
 # Token publico de Cloudflare Web Analytics. Va en el HTML a proposito: el
 # beacon es anonimo, sin cookies ni datos personales, asi que no hay secreto.
 # Vacio = no se inyecta nada. Se activa pegando el token y regenerando.
-CF_ANALYTICS_TOKEN = '82649c1bc5394875945715d7581c7aca'
+CF_ANALYTICS_TOKEN = 'b24b1c791e414ace9d886295ede0bd0d'
 
 
 def script_analytics():
