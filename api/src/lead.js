@@ -12,6 +12,9 @@
  *  GENERADO: lo escribe tools/nav/build-nav.py desde su catálogo INTERESES, que
  *  es la única fuente de verdad y también genera los <select> del formulario de
  *  /contacto/ y del modal. No editar a mano entre los marcadores. */
+/** Columna propia del Lead "Sitio de origen" (misma solución Dataverse que usa w-it.cl: 100000000 es W-IT). */
+const SITIO_WITEDUCA = 100000001;
+
 /* build-nav:intereses-inicio */
 const INTERESES = [
   'Adopción Garantizada',
@@ -132,10 +135,12 @@ function construirLead(
     .join('\n');
 
   const lead = {
-    subject: clean(`${interes}${empresa ? ` — ${empresa}` : ''}`, MAX.subject),
+    // El prefijo identifica el sitio en la vista de clientes potenciales (el de w-it.cl lleva "W-IT ·")
+    subject: clean(`WITEDUCA · ${interes}${empresa ? ` — ${empresa}` : ''}`, MAX.subject),
     lastname,
     emailaddress1: correo,
     description: clean(descripcion, MAX.description),
+    wit_sitioorigen: SITIO_WITEDUCA,
   };
 
   if (firstname) lead.firstname = firstname;

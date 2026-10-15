@@ -238,7 +238,8 @@ Campos del formulario y su destino en el Lead:
 | correo | `emailaddress1` |
 | telefono | `telephone1` |
 | tamano (tamaño de la organización) | línea en `description` — permite segmentar empresa grande / pyme / persona / sector público |
-| interes | `subject` y línea en `description` |
+| interes | `subject` (con prefijo `WITEDUCA ·`, para distinguirlos de los de w-it.cl, que llevan `W-IT ·`) y línea en `description` |
+| (fijo) | `wit_sitioorigen` = WITEDUCA (columna propia del Lead, compartida con el sitio w-it.cl) |
 | mensaje, origen (ruta + UTM), referente | `description` |
 
 El select de interés puede venir precargado desde la URL: `/contacto/?interes=Adopci%C3%B3n%20Garantizada`.
