@@ -7,6 +7,8 @@
     "DATAVERSE_TENANT_ID": "<tenant-id>",
     "DATAVERSE_CLIENT_ID": "<application-client-id>",
     "DATAVERSE_CLIENT_SECRET": "<pegar-solo-en-local-nunca-commitear>",
-    "LEAD_SOURCE_CODE": "8"
+    "LEAD_SOURCE_CODE": "8",
+    "AVISO_LEAD_REMITENTE": "sitio-web@w-it.cl",
+    "AVISO_LEAD_DESTINO": "comercial@w-it.cl"
   }
 }

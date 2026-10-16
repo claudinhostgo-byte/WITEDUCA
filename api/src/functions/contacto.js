@@ -4,6 +4,8 @@ const { app } = require('@azure/functions');
 const { createRecord } = require('../dataverse');
 const { clean, validar, construirLead } = require('../lead');
 const turnstile = require('../turnstile');
+const { armarAviso } = require('../aviso');
+const { enviarCorreo } = require('../graph');
 
 // Límite de envíos por IP. Es best-effort: la memoria no se comparte entre
 // instancias y se pierde al reciclarse, así que frena a un bot torpe, no a uno
@@ -82,14 +84,36 @@ app.http('contacto', {
     // Si el entorno lo tiene personalizado, ajusta LEAD_SOURCE_CODE.
     const leadSource = Number(process.env.LEAD_SOURCE_CODE || 8);
 
+    const lead = construirLead(datos, leadSource);
+    let leadId;
     try {
-      const leadId = await createRecord('leads', construirLead(datos, leadSource));
+      leadId = await createRecord('leads', lead);
       context.log(`Lead creado: ${leadId} (interés: ${datos.interes})`);
-      return { status: 201, jsonBody: { ok: true } };
     } catch (err) {
       // El detalle queda en los logs; al visitante solo le decimos que falló.
       context.error(`Error creando el lead: ${err.message}`);
       return { status: 502, jsonBody: { ok: false, error: 'crm_no_disponible' } };
     }
+
+    // El lead ya quedó en el CRM: si el aviso falla, solo se registra y la
+    // persona igual recibe su confirmación.
+    const remitente = process.env.AVISO_LEAD_REMITENTE;
+    if (remitente) {
+      try {
+        await enviarCorreo(
+          remitente,
+          armarAviso(datos, lead, leadId, {
+            destino: process.env.AVISO_LEAD_DESTINO,
+            dataverseUrl: process.env.DATAVERSE_URL,
+          })
+        );
+      } catch (err) {
+        context.error(`No se pudo enviar el aviso a Comercial (lead ${leadId}): ${err.message}`);
+      }
+    } else {
+      context.warn('AVISO_LEAD_REMITENTE no configurado: no se avisa a Comercial por correo.');
+    }
+
+    return { status: 201, jsonBody: { ok: true } };
   },
 });

@@ -354,6 +354,47 @@ administrada**, y el plan Free no permite un Function App propio. Por eso se usa
 client credentials con secreto. Si más adelante pasas a plan Standard con un
 Function App externo, conviene migrar a managed identity y eliminar el secreto.
 
+### Aviso por correo a Comercial
+
+Después de crear el Lead, la API manda un correo a `comercial@w-it.cl` con los
+datos del formulario (contacto, interés, mensaje, página, UTM y referente) y el
+botón **Abrir en Dynamics 365**. Es el mismo aviso que manda w-it.cl, con otra
+paleta (cabecera petróleo `#0F4C5C`, acento ámbar `#F2A541`) para distinguir el
+sitio de origen en la bandeja. **Responder** va directo a la persona (`replyTo`).
+
+```
+contacto.js --crea Lead--> dataverse.js
+            --después----> aviso.js (arma el HTML, lógica pura)
+                           graph.js  (POST /users/{remitente}/sendMail)
+```
+
+Si el envío falla, solo se registra en el log: el Lead ya quedó en el CRM y la
+persona igual ve "enviado". Si falta `AVISO_LEAD_REMITENTE`, no se envía nada
+(queda un warning en el log y `/api/health` reporta `avisoComercial: false`).
+
+| Variable | Valor |
+|---|---|
+| `AVISO_LEAD_REMITENTE` | buzón desde el que sale, p. ej. `sitio-web@w-it.cl` (el mismo de w-it.cl). Sin esta variable el aviso está apagado |
+| `AVISO_LEAD_DESTINO` | opcional; `comercial@w-it.cl` por defecto |
+| `GRAPH_TENANT_ID` / `GRAPH_CLIENT_ID` / `GRAPH_CLIENT_SECRET` | opcionales; por defecto se usan las `DATAVERSE_*` |
+
+**Permiso en Exchange (lo hace un administrador de Exchange).** No se agrega
+`Mail.Send` en Entra, porque vale para todos los buzones del tenant. Se usa RBAC
+de aplicaciones acotado al buzón remitente. Si el App Registration de WITEDUCA
+es distinto al de w-it.cl, hay que darle su propia asignación al mismo ámbito:
+
+```powershell
+Connect-ExchangeOnline
+New-ServicePrincipal -AppId <appId> -ObjectId <objectId de la aplicación empresarial> -DisplayName "WITEDUCA Sitio web"
+New-ManagementRoleAssignment -App <appId> -Role "Application Mail.Send" -CustomResourceScope "Sitio web - remitente"
+Test-ServicePrincipalAuthorization -Identity <appId> -Resource sitio-web@w-it.cl   # InScope = True
+```
+
+El ámbito `Sitio web - remitente` ya existe (lo creó w-it.cl). El `objectId` es el
+de la **aplicación empresarial**, no el del App Registration. Los cambios de RBAC
+tardan hasta 2 horas en aplicarse. Si es la misma app que usa w-it.cl, basta con
+configurar `AVISO_LEAD_REMITENTE`.
+
 ### Proteccion del formulario
 
 Cuatro capas, de la mas debil a la mas fuerte:

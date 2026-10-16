@@ -134,6 +134,7 @@ app.http('health', {
         configurado,
         faltantes,
         listoParaCrearLeads: faltantes.length === 0,
+        avisoComercial: Boolean(process.env.AVISO_LEAD_REMITENTE),
         leadSourceCode: Number(process.env.LEAD_SOURCE_CODE || 8),
         ...(verificacion ? { verificacion } : {}),
       },
